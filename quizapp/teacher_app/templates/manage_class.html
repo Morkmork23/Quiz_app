@@ -13,8 +13,12 @@
 
     <div class="bg-white w-full max-w-4xl p-8 rounded-lg shadow-md space-y-8">
         <div class="flex justify-between items-center mb-6">
-            <h2 class="text-2xl font-semibold text-center text-blue-600">Manage Class</h2>
-            <button id="generate-join-code" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition duration-300">Generate Join Code</button>
+            <h2 class="text-2xl font-semibold text-blue-600">Manage Class</h2>
+
+            <!-- Show Join Code Button -->
+            <button id="show-join-code" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition duration-300">
+                Show Join Code
+            </button>
         </div>
 
         <form method="POST" class="space-y-6">
@@ -23,15 +27,22 @@
             <!-- Rename Class Section -->
             <div class="space-y-2">
                 <h3 class="font-semibold text-lg">Rename Class</h3>
-                <input type="text" name="new_name" placeholder="Enter new class name" value="{{ class.name }}" class="w-full border p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" required />
-                <button type="submit" name="rename" class="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-300">Rename</button>
+                <input type="text" name="new_name" placeholder="Enter new class name" value="{{ class.name }}" 
+                       class="w-full border p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" required />
+                <button type="submit" name="rename" 
+                        class="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-300">
+                    Rename
+                </button>
             </div>
 
             <!-- Delete Class Section -->
             <div class="space-y-2">
                 <h3 class="font-semibold text-lg text-red-600">Delete Class</h3>
-                <p class="text-gray-700">Are you sure you want to delete the class "{{ class.name }}"? This action is irreversible.</p>
-                <button type="submit" name="delete" class="w-full bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-300">Delete Class</button>
+                <p class="text-gray-700">Are you sure you want to delete the class "{{ class.name }}"? This action cannot be undone.</p>
+                <button type="submit" name="delete" 
+                        class="w-full bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-300">
+                    Delete Class
+                </button>
             </div>
 
             <!-- Manage Students Section -->
@@ -44,41 +55,45 @@
                         <form method="POST" class="inline">
                             {% csrf_token %}
                             <input type="hidden" name="student_id" value="{{ student.id }}">
-                            <button type="submit" name="remove_student" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-300">
+                            <button type="submit" name="remove_student" 
+                                    class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-300">
                                 Remove
                             </button>
                         </form>
                     </li>
                     {% empty %}
-                    <p class="text-gray-600">No students in this class yet.</p>
+                    <p class="text-gray-600">No students enrolled yet.</p>
                     {% endfor %}
                 </ul>
             </div>
         </form>
     </div>
 
-<!-- Modal for Join Code -->
-<div id="joinCodeModal" class="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center hidden">
-    <div class="bg-white p-6 rounded-lg shadow-lg w-96">
-        <h3 class="text-xl font-semibold text-center mb-4">Join Code</h3>
-        <div class="flex justify-between items-center">
-            <!-- Display backend-generated join code -->
-            <span id="join-code" class="text-lg font-medium">{{ class.join_code }}</span>
-            <button id="copy-btn" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-300">Copy</button>
-        </div>
-        <div class="mt-4 text-center">
-            <button id="close-modal" class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition duration-300">Close</button>
+    <!-- Modal for Join Code -->
+    <div id="joinCodeModal" class="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center hidden">
+        <div class="bg-white p-6 rounded-lg shadow-lg w-96">
+            <h3 class="text-xl font-semibold text-center mb-4">Join Code</h3>
+
+            <div class="flex justify-between items-center">
+                <!-- Display join code from backend -->
+                <span id="join-code" class="text-lg font-medium">{{ class.join_code }}</span>
+
+                <button id="copy-btn" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-300">
+                    Copy
+                </button>
+            </div>
+
+            <div class="mt-4 text-center">
+                <button id="close-modal" class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition duration-300">
+                    Close
+                </button>
+            </div>
         </div>
     </div>
-</div>
-
 
     <script>
-        // Generate Join Code and show the modal
-        document.getElementById('generate-join-code').addEventListener('click', function() {
-            // Generate a random join code (you can replace this with real logic if needed)
-            const joinCode = Math.random().toString(36).substring(2, 10).toUpperCase();
-            document.getElementById('join-code').textContent = joinCode;
+        // Show Join Code Modal
+        document.getElementById('show-join-code').addEventListener('click', function() {
             document.getElementById('joinCodeModal').classList.remove('hidden');
         });
 
@@ -87,10 +102,10 @@
             const joinCodeText = document.getElementById('join-code').textContent;
             navigator.clipboard.writeText(joinCodeText)
                 .then(() => alert('Join code copied to clipboard!'))
-                .catch(err => alert('Failed to copy join code'));
+                .catch(() => alert('Failed to copy join code'));
         });
 
-        // Close the modal
+        // Close Modal
         document.getElementById('close-modal').addEventListener('click', function() {
             document.getElementById('joinCodeModal').classList.add('hidden');
         });

@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils.crypto import get_random_string
 
+class Student(models.Model):
+    name = models.CharField(max_length=100)
 class Class(models.Model):
     name = models.CharField(max_length=100)
     students = models.ManyToManyField('student_app.StudentProfile', related_name="classes_enrolled")  # Lazy import

@@ -5,7 +5,7 @@ from teacher_app.models import Class, Quiz
 
 class StudentProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="student_profile")
-    enrolled_classes = models.ManyToManyField(Class, related_name="students_in_class")  # Change related_name here
+    enrolled_classes = models.ManyToManyField('teacher_app.Class', related_name="students_in_class")
 
     def __str__(self):
         return self.user.username

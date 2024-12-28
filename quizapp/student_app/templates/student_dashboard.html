@@ -47,17 +47,17 @@
             <section id="class-joining"
                   class="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-purple-200 to-purple-800 p-8  shadow-md">
                   <img class="masthead-avatar mb-5 size-40" src="{% static 'assets/django.png' %}" alt="">
-                  <form class=" flex items-center gap-4">
+                  <form method="POST" action="{% url 'join_class' %}" class="flex items-center gap-4">
+                        {% csrf_token %}
                         <div>
-                              <label for="class-code" class="block font-medium mb-2">Class Code</label>
-                              <input type="text" id="class-code" class="w-full border rounded px-4 py-2"
-                                    placeholder="Enter class code">
+                            <label for="class-code" class="block font-medium mb-2">Class Code</label>
+                            <input type="text" id="class-code" name="class_code" class="w-full border rounded px-4 py-2" placeholder="Enter class code">
                         </div>
-                        <button type="button"
-                              class="mt-8 bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">Join
-                              Class
+                        <button type="submit" class="mt-8 bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">
+                            Join Class
                         </button>
-                  </form>
+                    </form>
+                    
             </section>
       </main>
 
