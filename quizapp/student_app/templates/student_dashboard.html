@@ -6,10 +6,10 @@
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <script src="https://cdn.tailwindcss.com"></script>
-      <title>Student Dashboard</title>
+      <title>Student Dashboard | Quizit</title>
 </head>
 
-<body class="bg-gray-100">
+<body>
       <header class="fixed top-0 w-full bg-purple-700 text-white">
             <!-- Top Header -->
             <div class="mx-auto flex justify-between items-center px-6 py-4">
@@ -44,22 +44,21 @@
 
       <main class=" mx-auto ">
             <!-- Class Joining -->
-            <section id="class-joining"
-                  class="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-purple-200 to-purple-800 p-8  shadow-md">
-                  <img class="masthead-avatar mb-5 size-40" src="{% static 'assets/django.png' %}" alt="">
-                  <form method="POST" action="{% url 'join_class' %}">
-                        {% csrf_token %}
-                        <input type="text" name="class_code" placeholder="Enter Join Code" required>
-                        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg">
-                            Join Class
-                        </button>
-                    </form>                         
+            <section id="class-joining" class="flex items-center justify-center min-h-screen p-8  shadow-md">
+                  <div>
+                        <form method="POST" action="{% url 'join_class' %}">
+                              {% csrf_token %}
+                              <input type="text" name="class_code" placeholder="Enter Join Code" required>
+                              <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg"
+                                    style="background-color: #F3BB00;">
+                                    Join Class
+                              </button>
+                        </form>
+
+                        <img class="masthead-avatar mb-5 size-40" src="{% static 'assets/pic.png' %}" alt="">
+                  </div>
             </section>
       </main>
-
-      <footer class="bg-gray-800 text-white text-center py-4">
-            <p>&copy; 2024 Quiz Management System. All rights reserved.</p>
-      </footer>
 </body>
 
 </html>
