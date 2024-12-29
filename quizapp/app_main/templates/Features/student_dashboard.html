@@ -16,7 +16,7 @@
     <div class="main-container">
         <div class="right-side">
             <nav class=" text-black">
-                <div class="max-w-7xl mx-auto px-4 sm:">
+                <div class=" mx-auto px-4 sm:">
                     <div class="flex justify-between items-center h-16">
                         <!-- Logo -->
                         <div class="flex flex-col">
@@ -26,32 +26,35 @@
                         <!-- Links (Hidden on smaller screens) -->
                         <div class="hidden md:flex space-x-4 items-center">
                             <img class="masthead-avatar"
-                                style="border-radius: 50%; background-color: white; border: 3px solid #24724D;"
+                                style="border-radius: 50%; background-color: white; border: 3px solid #3D1746;"
                                 src="{% static 'assets/Profile.jpg' %}" alt="" width="55px">
-                                <a href="" class=""> Mikhail Villanueva</a>
+                            <a href="" class=""> Mikhail Villanueva</a>
                         </div>
                     </div>
                 </div>
             </nav>
 
 
-            <main class="max-w-7xl mx-auto px-4 sm:">
+            <main class="mx-auto px-4 py-3 "
+                style="background-color: #F3F3F3; justify-content: center; border-radius: 14px; margin-top: 50px;">
                 <!-- Class Joining -->
                 <section id="class-joining">
                     <div class="">
-                        <div class="flex items-center gap-20">
+                        <div class="flex items-center gap-20 justify-center">
 
-                            <form method="POST" action="{% url 'join_class' %}" class="flex gap-6">
+                            <form method="POST" action="{% url 'join_class' %}" class="flex gap-2">
                                 {% csrf_token %}
-                                <input type="text" name="class_code" placeholder="Enter Join Code" required
-                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 bg-gray-200">
-                                <button type="submit" class="bg-blue-600 text-white px-10 py-2 rounded-lg"
-                                    style="background-color: #F3BB00; width: 200px;">
-                                    Join Class
+                                <input type="text" name="class_code" placeholder="Enter a join code" required
+                                    class="w-full px-4 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 text-lg"
+                                    style="border-radius: 14px; background-color: #E5E5E5;">
+                                <button type="submit" class="bg-blue-600 text-white px-5 py-2 text-lg font-medium"
+                                    style="background-color: #F3BB00; border-radius: 14px;">
+                                    Join
                                 </button>
                             </form>
+
                             <div>
-                                <img class="masthead-avatar  size-40" src="{% static 'assets/pic.png' %}" alt="">
+                                <img class="masthead-avatar" src="{% static 'assets/pic.png' %}" alt="" width="200px">
                             </div>
                         </div>
                     </div>
@@ -76,7 +79,7 @@
                         <!-- Home -->
                         <li class="nav-link">
                             <button onclick="window.location.href='Main_Page.html'"
-                                class="flex items-center space-x-2 p-2 rounded-md hover:bg-gray-700 w-full text-left">
+                                class="flex items-center space-x-2 p-2 rounded-md w-full text-left bg-transparent text-white hover:bg-white hover:text-[#3D1746] transition-colors duration-200">
                                 <i class="bx bxs-dashboard icon text-lg"></i>
                                 <span class="text nav-text">Home</span>
                             </button>
@@ -84,7 +87,7 @@
                         <!-- Classes -->
                         <li class="nav-link">
                             <button onclick="window.location.href='Student_Display.html'"
-                                class="flex items-center space-x-2 p-2 rounded-md hover:bg-gray-700 w-full text-left">
+                                class="flex items-center space-x-2 p-2 rounded-md w-full text-left bg-transparent text-white hover:bg-white hover:text-[#3D1746] transition-colors duration-200">
                                 <i class="bx bxs-user-account icon text-lg"></i>
                                 <span class="text nav-text">Classes</span>
                             </button>
@@ -92,20 +95,21 @@
                     </ul>
                 </div>
 
+
                 <div class="bottom-content mt-8">
                     <ul class="menu-links space-y-4">
                         <!-- Logout -->
                         <li>
-                            <form action="{% url 'login_view' %}" method="POST"
-                                class="flex items-center space-x-2 p-2 rounded-md hover:bg-gray-700">
+                            <form action="{% url 'login_view' %}" method="POST">
                                 {% csrf_token %}
                                 <button type="submit"
-                                    class="flex items-center space-x-2 text-white focus:outline-none w-full text-left">
+                                    class="flex items-center space-x-2 p-2 rounded-md w-full text-left bg-transparent text-white hover:bg-white hover:text-[#3D1746] transition-colors duration-200">
                                     <i class="bx bx-log-out icon text-lg"></i>
                                     <span class="text nav-text">Logout</span>
                                 </button>
                             </form>
                         </li>
+
                     </ul>
                 </div>
             </div>
