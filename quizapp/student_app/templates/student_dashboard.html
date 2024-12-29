@@ -46,16 +46,15 @@
             <!-- Class Joining -->
             <section id="class-joining" class="flex items-center justify-center min-h-screen p-8  shadow-md">
                   <div>
-                        <form method="POST" action="{% url 'join_class' %}">
-                              {% csrf_token %}
-                              <input type="text" name="class_code" placeholder="Enter Join Code" required>
-                              <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg"
-                                    style="background-color: #F3BB00;">
-                                    Join Class
-                              </button>
-                        </form>
-
-                        <img class="masthead-avatar mb-5 size-40" src="{% static 'assets/pic.png' %}" alt="">
+                  <form method="POST" action="{% url 'join_class' %}">
+                        {% csrf_token %}
+                        <input type="text" name="class_code" placeholder="Enter Join Code" required>
+                        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg" style="background-color: #F3BB00;">
+                            Join Class
+                        </button>
+                    </form>          
+                    
+                    <img class="masthead-avatar mb-5 size-40" src="{% static 'assets/pic.png' %}" alt="">
                   </div>
             </section>
       </main>
