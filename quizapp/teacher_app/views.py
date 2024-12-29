@@ -4,13 +4,13 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import Class, Quiz  # Import the models
 
+@login_required
 def dashboard(request):
-    if not request.user.is_authenticated:
-        return redirect('login_view')
-    # Retrieve classes and quizzes for the logged-in teacher
+    
     classes = Class.objects.filter(teacher=request.user)  # Ensure 'teacher' is a valid field
     quizzes = Quiz.objects.filter(assigned_class__teacher=request.user)  # Ensure the relationship exists
     return render(request, 'teacher_dashboard.html', {'classes': classes, 'quizzes': quizzes})
+
 
 @login_required
 def create_class(request):
