@@ -23,27 +23,29 @@
 </head>
 
 
-<body>
-      <section class="vh-100" style="background-color: #9A616D;">
-            <div class="container py-5 h-100">
+<body style="background-color: #3E1847;">
+      <section>
+            <div class="container" style="background-color: #3E1847; box-shadow: none;">
                   <div class="row d-flex justify-content-center align-items-center h-100">
                         <div class="col col-xl-10">
-                              <div class="card" style="border-radius: 1rem;">
+                              <div class="card" style="border-radius: 1rem; border: none;">
                                     <div class="row g-0">
                                           <div class="col-md-6 col-lg-5 d-none d-md-block">
-                                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgMxCPwCb8MwLHvgmo-Wi8XRWvWFxmas8oUw&s"
-                                                      alt="login form" class="img-fluid"
+                                                <img src="{% static 'assets/logo_white.png' %}" alt="" width="200px"
+                                                      style="position: absolute; margin: 20px 0px 0px 20px;">
+                                                      
+                                                <img src="{% static 'assets/purplebackground.png' %}" alt="login form"
+                                                      class="img-fluid"
                                                       style="border-radius: 1rem 0 0 1rem; height: 600px;" />
                                           </div>
-                                          <div class="col-md-6 col-lg-7 d-flex align-items-center">
-                                                <div class="card-body p-4 p-lg-5 text-black">
+                                          <div class="col-md-6 col-lg-7 d-flex align-items-center ">
+                                                <div class="card-body text-black p-4">
 
-                                                      <form method="POST" action="{% url 'login_view' %}">
+                                                      <form method="POST" action="{% url 'login_view' %}"> 
                                                             {% csrf_token %}
                                                             <div class="d-flex align-items-center mb-3 pb-1">
-                                                                  <i class="fas fa-user fa-2x me-3"
-                                                                        style="color: #181322;"></i>
-                                                                  <span class="h1 fw-bold mb-0">Login</span>
+                                                                  <span class="h1 fw-bold mb-0"
+                                                                        style="color: #333333;">Log in to Quizit</span>
                                                             </div>
 
                                                             <h5 class="fw-normal mb-3 pb-3"
@@ -53,29 +55,29 @@
 
                                                             <!-- Username Input -->
                                                             <div class="form-outline mb-4">
+                                                                  <label class="form-label mb-0 text-muted"
+                                                                        for="username">Username</label>
                                                                   <input type="text" name="username" id="username"
                                                                         class="form-control form-control-lg" required />
-                                                                  <label class="form-label"
-                                                                        for="username">Username</label>
                                                             </div>
 
                                                             <!-- Password Input -->
                                                             <div class="form-outline mb-4">
+                                                                  <label class="form-label mb-0 text-muted"
+                                                                        for="password">Password</label>
                                                                   <input type="password" name="password" id="password"
                                                                         class="form-control form-control-lg" required />
-                                                                  <label class="form-label"
-                                                                        for="password">Password</label>
                                                             </div>
 
                                                             <p class="text-end">
-                                                                  <a class="small text-muted" href="#!">Forgot
+                                                                  <a class="small text-muted" href="#!" style="text-decoration: none;">Forgot
                                                                         password?</a>
                                                             </p>
 
                                                             <!-- Submit Button -->
                                                             <div class="pt-1 mb-4 d-flex justify-content-center">
                                                                   <button class="btn btn-dark btn-lg btn-block px-5"
-                                                                        type="submit">Login</button>
+                                                                        type="submit" style="background-color: #BD5DD5; width: 40%;">Login</button>
                                                             </div>
 
                                                             <p class="mt-5 mb-5 pb-lg-2" style="color: #393f81;">
