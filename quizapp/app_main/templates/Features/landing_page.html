@@ -20,31 +20,71 @@
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
       <title>Quiz Application</title>
 
+
 </head>
 
 <body id="page-top">
-      <nav class="navbar navbar-expand-lg bg-secondary fixed-top" id="mainNav">
+      <nav class="navbar navbar-expand-lg bg-white fixed-top" id="mainNav">
             <div class="container">
-                  <a class="navbar-brand js-scroll-trigger" href="#page-top">Yummy Quiz</a>
+                  <a class="navbar-brand js-scroll-trigger" href="#page-top">
+                        <img class="masthead-avatar mb-0" src="{% static 'assets/logo_violet.png' %}" alt="">
+                  </a>
 
+                  <div class="nav-content">
+                        <div class="collapse navbar-collapse" id="navbarNav">
+                            <ul class="navbar-nav">
+                                <li class="nav-item">
+                                    <a class="nav-link fw-light text-black " href="#" role="button" style="color: #3D1746;">Home</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link fw-light" href="#" role="button" style="color: #3D1746;">Services</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link fw-light" href="#" role="button" style="color: #3D1746;">About</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link fw-light" href="#" role="button" style="color: #3D1746;">Projects</a>
+                                </li>
+                                <button class="btn-contact"><svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                        height="24" viewBox="0 0 24 24">
+                                        <path fill="currentColor"
+                                            d="M21.25 8.18a9.8 9.8 0 0 0-2.16-3.25a10 10 0 0 0-14.15 0a9.8 9.8 0 0 0-2.17 3.25A10 10 0 0 0 2.01 12a9.7 9.7 0 0 0 .74 3.77l-.5 3.65a1.95 1.95 0 0 0 1.29 2.26c.297.098.613.122.92.07l3.65-.54a9.8 9.8 0 0 0 3.88.79a10 10 0 0 0 9.24-13.82zM7.73 13.61a1.61 1.61 0 1 1 .001-3.22a1.61 1.61 0 0 1 0 3.22m4.28 0a1.61 1.61 0 1 1 .001-3.22a1.61 1.61 0 0 1 0 3.22m4.28 0a1.61 1.61 0 1 1 .001-3.22a1.61 1.61 0 0 1 0 3.22" />
+                                    </svg>
+                                    Contact Me!</button>
+                            </ul>
+                        </div>
+                    </div>
             </div>
       </nav>
-      <header class=" masthead bg-primary text-white text-center">
+      <header class=" masthead text-white text-center" style="background-color: #3D1746;">
             <div class="container d-flex align-items-center flex-column">
-                  <!-- Masthead Avatar Image--><img class="masthead-avatar mb-5" src="{% static 'assets/django.png' %}"
-                        alt="">
+                  <!-- Masthead Avatar Image--><img class="mb-5" src="{% static 'assets/logo_white.png' %}" alt=""
+                        width="580px">
                   <!-- Masthead Heading-->
-                  <h1 class="masthead-heading mb-0">Yummy Quiz</h1>
+                  <h1 class="masthead-heading mb-0">Welcome to QUIZIT!</h1>
+                  <p class="lead mt-4" style="font-size: 30px; font-weight: lighter;">Ready to test your knowledge and
+                        have fun? <br>
+                        Sign up or log in to explore exciting quizzes and challenge yourself!
+                  </p>
                   <!-- Icon Divider-->
                   <div class="divider-custom divider-light">
                         <div class="divider-custom-line"></div>
                         <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
                         <div class="divider-custom-line"></div>
                   </div>
-                  <!-- Masthead Subheading-->
-                  <a href="/login" class="p-4   btn-dark fw-bold mb-0">
-                        GET STARTED
-                  </a>
+
+                  <div class="d-flex" style="align-items: center; gap: 40px;">
+                        <!-- Masthead Subheading-->
+                        <a href="" class="btn-dark fw-bold mb-0 h2"
+                              style="background-color: #937FCB; color: white; border: none; border-radius: 10px; font-size: 30px; text-decoration: none; padding: 10px 20px; font-weight: bolder;">
+                              SIGN UP
+                        </a>
+
+                        <a href="/login" class=" btn-dark fw-bold mb-0 h2"
+                              style="background-color: #F2F2F2; color: black; border: none; border-radius: 10px; font-size: 30px; text-decoration: none; padding: 10px 20px; font-weight: bolder;">
+                              LOG IN
+                        </a>
+                  </div>
 
 
             </div>
@@ -53,14 +93,15 @@
             <div class="container">
                   <!-- Learn While you Play Section Heading-->
                   <div class="text-center">
-                        <h2 class="page-section-heading text-secondary mb-0 d-inline-block">Learn While You Play! </h2>
+                        <h2 class="page-section-heading mb-0 d-inline-block" style="color: #3D1746;">Learn While You
+                              Play! </h2>
                   </div>
-                  <p class="text-center h2 mt-5 text-dark">
+                  <p class="text-center h2 mt-5 text-black">
                         Still Working on it...
                   </p>
             </div>
       </section>
-      <section class="page-section bg-primary text-white mb-0" id="about">
+      <section class="page-section text-white mb-0" id="about" style="background-color: #3D1746;">
             <div class="container">
                   <!-- About Section Heading-->
                   <div class="text-center">
@@ -75,13 +116,16 @@
                   <!-- About Section Content-->
                   <div class="row">
                         <div class="col-lg-6 mb-4">
-                              <p class="lead">"Our quiz system is a platform designed to make learning fun and
-                                    interactive. Whether you're testing your general knowledge or preparing for exams,
-                                    we have quizzes for everyone!"</p>
+                              <p class="lead">"Our quiz system is designed to make learning fun and interactive. Whether
+                                    you're testing your general knowledge or preparing for exams, we have quizzes for
+                                    everyone. Each quiz is created to engage and challenge users of all skill levels.
+                                    Start your quiz journey today and make learning exciting!"</p>
                         </div>
                         <div class="col-lg-6 mb-4">
-                              <p class="lead">"Ready to put your knowledge to the test? Dive into the world of quizzes
-                                    now!"</p>
+                              <p class="lead">"Are you ready to challenge yourself and take your knowledge to the next
+                                    level? It's time to dive into the exciting world of quizzes! Test your skills,
+                                    discover new insights, and have fun while learning. Start your journey now and see
+                                    how much you can achieve!"</p>
                         </div>
                   </div>
             </div>
@@ -109,7 +153,7 @@
                         </div>
                         <!-- Footer About Text-->
                         <div class="col-lg-4">
-                              <h4 class="mb-4">ABOUT Yummy Quiz</h4>
+                              <h4 class="mb-4">ABOUT QUIZ IT</h4>
                               <p class="pre-wrap lead mb-0">lorem ipsum etets lsorm askr msdi
                                     omsim sidle sjie kaxn fdhe nams </p>
                         </div>
