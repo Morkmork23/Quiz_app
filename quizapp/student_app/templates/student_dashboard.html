@@ -292,37 +292,27 @@
                 <!-- Class Quizzes -->
                 <main class="mt-10">
 
-                    <!-- Scores and Correct Items -->
+                    <!-- student_dashboard.html -->
                     <section id="scores" class="bg-white p-0 mt-7 px-5">
                         <h2 class="text-2xl font-semibold mb-5">Classes</h2>
                         <div class="bg-gray-100 p-4 rounded border">
-                            <h3 class="text-xl font-medium mb-4">Recent Class</h3>
+                            <h3 class="text-xl font-medium mb-4">Recent Classes</h3>
                             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                {% for class_instance in enrolled_classes %}
                                 <div class="bg-white p-4 rounded shadow">
-                                    <h4 class="font-bold uppercase">CLASS NAME</h4>
-                                    <p class="text-gray-600">Teacher Name</p>
+                                    <h4 class="font-bold uppercase">{{ class_instance.name }}</h4>
+                                    <p class="text-gray-600">{{ class_instance.teacher.username }}</p>
                                     <button class="mt-4 bg-purple-400 text-white px-4 py-2 rounded hover:bg-purple-500">
                                         View Class
                                     </button>
                                 </div>
-                                <div class="bg-white p-4 rounded shadow">
-                                    <h4 class="font-bold uppercase">CLASS NAME</h4>
-                                    <p class="text-gray-600">Teacher Name</p>
-                                    <button class="mt-4 bg-purple-400 text-white px-4 py-2 rounded hover:bg-purple-500">
-                                        View Class
-                                    </button>
-                                </div>
-                                <div class="bg-white p-4 rounded shadow">
-                                    <h4 class="font-bold uppercase">CLASS NAME</h4>
-                                    <p class="text-gray-600">Teacher Name</p>
-                                    <button class="mt-4 bg-purple-400 text-white px-4 py-2 rounded hover:bg-purple-500">
-                                        View Class
-                                    </button>
-                                </div>
+                                {% empty %}
+                                <p>No classes enrolled yet.</p>
+                                {% endfor %}
                             </div>
                         </div>
-                    </section>
-
+                    </section>                    
+             
                     <section id="class-quizzes" class="bg-white p-0 px-5 relative z-10 mt-7">
                         <h2 class="text-2xl font-semibold mb-5">Today Quiz</h2>
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -411,19 +401,18 @@
                         <img src="{% static 'assets/logo_white.png' %}" alt="" width="200px">
                     </div>
 
-                    <!-----PROFILE ADMIN------>
-                    <header class="sidebar-profile py-3 ">
-                        <div class="image-text text-white">
-                            <div class="text header-text flex flex-col items-center">
-                                <img class="masthead-avatar"
-                                    style="border-radius: 50%; background-color: white; border: 3px solid #F3BB00; width: 80px; text-align: center;"
-                                    src="{% static 'assets/Profile.jpg' %}" alt="">
-                                <p id="name-admin" class="mt-2">Mikhail Villanueva</p>
-                                <span class="name">Student</span>
-                            </div>
-                        </div>
-                    </header>
-
+                    <!-----PROFILE ADMIN------> 
+                        <header class="sidebar-profile py-3">
+                              <div class="image-text text-white">
+                              <div class="text header-text flex flex-col items-center">
+                                    <img class="masthead-avatar"
+                                          style="border-radius: 50%; background-color: white; border: 3px solid #F3BB00; width: 80px; text-align: center;"
+                                          src="{% static 'assets/Profile.jpg' %}" alt="">
+                                    <p id="name-admin" class="mt-2">{{ request.user.username }}</p> <!-- Displaying the username -->
+                                    <span class="name">Student</span>
+                              </div>
+                              </div>
+                        </header>
                 </div>
             </div>
 
@@ -434,18 +423,18 @@
                     <ul class="menu-links space-y-4">
                         <!-- Home -->
                         <li class="nav-link">
-                            <button onclick="window.location.href='#'"
+                            <button
                                 class="flex items-center space-x-2 p-2 rounded-md w-full text-left bg-transparent text-white hover:bg-white hover:text-[#3D1746] transition-colors duration-200">
                                 <i class="bx bxs-dashboard icon text-lg"></i>
-                                <span class="text nav-text">Home</span>
+                                <span class="text nav-text"><a href="{% url 'students_dashboard' %}">Home</a></span>
                             </button>
                         </li>
                         <!-- Classes -->
                         <li class="nav-link">
-                            <button onclick="window.location.href='/student_classes'"
+                            <button
                                 class="flex items-center space-x-2 p-2 rounded-md w-full text-left bg-transparent text-white hover:bg-white hover:text-[#3D1746] transition-colors duration-200">
                                 <i class='bx bxs-folder icon text-lg'></i>
-                                <span class="text nav-text">Classes</span>
+                                <span class="text nav-text"> <a href="{% url 'student_classes' %}">Classes</a></span>
                             </button>
                         </li>
                     </ul>
