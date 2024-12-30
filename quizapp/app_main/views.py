@@ -69,4 +69,11 @@ def login_view(request):
     return render(request, 'Features/login.html')
 
 
+<<<<<<< HEAD
+=======
+    # quiz_home dashboard
+def student_dashboard(request):
+    return render(request, 'Features/student_dashboard.html')
+
+>>>>>>> f2be9ffed3fd82adaa47688aea44225f879a101c
 
