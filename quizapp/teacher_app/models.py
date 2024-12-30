@@ -6,16 +6,17 @@ class Student(models.Model):
     name = models.CharField(max_length=100)
 class Class(models.Model):
     name = models.CharField(max_length=100)
-    teacher = models.ForeignKey(User, on_delete=models.CASCADE)
-    students = models.ManyToManyField('student_app.StudentProfile', related_name='classes', blank=True)
-    join_code = models.CharField(max_length=8, blank=True, null=True)
+    teacher = models.ForeignKey(User, on_delete=models.CASCADE, related_name='classes')
+    students = models.ManyToManyField(User, related_name='enrolled_classes', blank=True)
+    join_code = models.CharField(max_length=10, blank=True, null=True)
 
     def generate_join_code(self):
         import random
-        self.join_code = ''.join(random.choices('ABCDEFGHJKLMNPQRSTUVWXYZ23456789', k=6))
+        import string
+        self.join_code = ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
         self.save()
 
-            
+
     def __str__(self):
         return f"{self.name} - {self.teacher.username}"
 

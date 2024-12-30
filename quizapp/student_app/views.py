@@ -1,38 +1,43 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from teacher_app.models import Class
 from .models import StudentProfile
 
+@login_required
 def join_class(request):
-    if request.method == 'POST':
-        join_code = request.POST.get('class_code')
-        
-        try:
-            student_profile = request.user.student_profile
-        except StudentProfile.DoesNotExist:
-            messages.error(request, "Student profile not found.")
-            return redirect('student_dashboard')
+    if request.method == "POST":
+        print("POST Data:", request.POST)  # Log all POST data
+        join_code = request.POST.get("join_code", "").strip()
+        if not join_code:
+            messages.error(request, "Join code cannot be empty.")
+            return redirect('join_class')  # Redirect back to the join class page
+
 
         try:
-            class_instance = Class.objects.get(join_code=join_code)
-            if class_instance.students.filter(id=student_profile.id).exists():
-                messages.warning(request, "You are already enrolled in this class.")
+            class_instance = Class.objects.get(join_code__iexact=join_code)  # Case-insensitive match
+            if request.user in class_instance.students.all():
+                messages.warning(request, f"You are already enrolled in: {class_instance.name}.")
             else:
-                class_instance.students.add(student_profile)
-                messages.success(request, f"Successfully joined {class_instance.name}!")
+                class_instance.students.add(request.user)
+                messages.success(request, f"You have successfully joined the class: {class_instance.name}.")
         except Class.DoesNotExist:
-            messages.error(request, "Invalid class code.")
-        
-        return redirect('student_dashboard')
+            messages.error(request, "Invalid join code.")
+        return redirect('dashboard')
+    
+    return render(request, 'student_classes.html')
 
-    return render(request, 'student_dashboard.html')
 
 def dashboard(request):
     return render(request, 'student_dashboard.html')
 
 def user_dashboard(request):
     return render(request, 'user_dashboard.html')
+
 def profile_manage(request):
     return render(request, 'profile_manage.html')
+
+def student_classes(request):
+    return render(request, 'student_classes.html')
 
 

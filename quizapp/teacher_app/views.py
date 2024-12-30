@@ -74,18 +74,4 @@ def generate_join_code(request, class_id):
         messages.error(request, "Class not found.")
     return redirect('manage_class', class_id=class_id)
 
-@login_required
-def join_class(request):
-    if request.method == 'POST':
-        join_code = request.POST.get('join_code')
-        try:
-            class_instance = Class.objects.get(join_code=join_code)
-            # Assuming you have a relation to add students to the class
-            class_instance.students.add(request.user)
-            messages.success(request, f"You've successfully joined the class: {class_instance.name}")
-        except Class.DoesNotExist:
-            messages.error(request, "Invalid join code.")
-        return redirect('class_list')
-
-    return render(request, 'join_class.html')
 

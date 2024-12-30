@@ -11,6 +11,12 @@
 
 <body class="bg-gray-100 h-screen flex items-center justify-center">
 
+    <div class="absolute top-4 left-4">
+        <a href="{% url 'teachers_dashboard' %}" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition duration-300">
+            Back
+        </a>
+    </div>
+
     <div class="bg-white w-full max-w-4xl p-8 rounded-lg shadow-md space-y-8">
         <div class="flex justify-between items-center mb-6">
             <h2 class="text-2xl font-semibold text-blue-600">Manage Class</h2>
@@ -52,7 +58,7 @@
                     <h2>Enrolled Students</h2>
                     {% for student in students %}
                     <li class="flex justify-between items-center p-4 bg-gray-50 rounded-lg shadow-sm hover:bg-gray-100">
-                        <span>{{ student.user.username }} ({{ student.student_id }})</span>
+                        <span>{{ student.username }} ({{ student.id }})</span>
                         <form method="POST" class="inline">
                             {% csrf_token %}
                             <input type="hidden" name="student_id" value="{{ student.id }}">
