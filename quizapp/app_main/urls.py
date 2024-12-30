@@ -7,8 +7,4 @@ urlpatterns = [
     path("login/", views.login_view, name="login_view"),
     path("register/", views.register_view, name="register_view"),
     path("logout/", LogoutView.as_view(next_page='login_view'), name="logout"),
-<<<<<<< HEAD
-=======
-    path("student_dashboard/", views.student_dashboard, name="student_dashboard"),
->>>>>>> f2be9ffed3fd82adaa47688aea44225f879a101c
 ]
