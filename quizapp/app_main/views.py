@@ -68,14 +68,5 @@ def login_view(request):
 
     return render(request, 'Features/login.html')
 
-# quiz_home dashboard
-def dashboard(request):
-    return render(request, 'Features/dashboard.html')
 
-    # quiz_home dashboard
-def student_dashboard(request):
-    return render(request, 'Features/student_dashboard.html')
-
-def student_dashboard(request):
-    return render(request, 'Features/student_classes.html')
 

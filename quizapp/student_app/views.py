@@ -23,7 +23,7 @@ def join_class(request):
                 messages.success(request, f"You have successfully joined the class: {class_instance.name}.")
         except Class.DoesNotExist:
             messages.error(request, "Invalid join code.")
-        return redirect('dashboard')
+        return redirect('students_dashboard')
     
     return render(request, 'student_classes.html')
 
