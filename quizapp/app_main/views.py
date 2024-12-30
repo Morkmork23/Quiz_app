@@ -76,6 +76,4 @@ def dashboard(request):
 def student_dashboard(request):
     return render(request, 'Features/student_dashboard.html')
 
-def student_dashboard(request):
-    return render(request, 'Features/student_classes.html')
 
