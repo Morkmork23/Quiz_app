@@ -1,0 +1,236 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="{% static 'assets/icon.png' %}">
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <title>Student Dashboard | Quizit</title>
+</head>
+
+<style>
+    /*NAV BURGER*/
+    .nav-burger {
+        display: inline-block;
+        float: right;
+        position: relative;
+        top: -3px;
+        color: #4A4A4A;
+    }
+
+    .nav-burger .icon {
+        font-size: 50px;
+        color: black;
+        cursor: pointer;
+    }
+
+    .menu-content {
+        display: none;
+        background-color: #F5F5F5;
+        position: absolute;
+        right: 0;
+        top: 50px;
+        width: 250px;
+        border-radius: 15px;
+        z-index: 1000;
+        box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+        opacity: 0;
+        transform: translateY(-20px);
+        transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    .menu-content.show {
+        display: block;
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .menu-content h2 {
+        color: black;
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        padding: 10px;
+    }
+
+    .menu-content a {
+        color: black;
+        display: flex;
+        text-decoration: none;
+        align-items: center;
+        gap: 7px;
+        font-size: 18px;
+        border: 1px solid #D4D4D4;
+        padding: 10px 20px;
+        font-weight: lighter;
+    }
+
+    .menu-content .icon {
+        font-size: 30px;
+        color: black;
+    }
+
+    .menu-content a:hover {
+        background-color: #cecdcd;
+    }
+</style>
+
+<body>
+    <div class="main-container">
+        <div class="right-side py-3 px-5 ">
+            <nav class="text-black px-5">
+                <div class="mx-auto">
+                    <div class="flex justify-between items-center h-16">
+                        <!-- Logo -->
+                        <div class="flex flex-col">
+                            <a href="#" class="text-4xl font-bold">Home</a>
+                            <!-- Date -->
+                            <a id="dateText" class="text-lg"></a>
+                        </div>
+
+                        <nav class="nav-burger">
+                            <i class='bx bx-menu icon' onclick="toggleMenu()"></i>
+                            <div class="menu-content">
+                                <h2><i class='bx bxs-cog icon'></i> SETTINGS </h2>
+                                <a href=""><i class='bx bxs-user-detail icon'></i> User Profile</a>
+                                <a style="border-radius: 0px 0px 15px 15px;" id="logout_openPopup"><i
+                                        class='bx bx-log-out icon'></i>Sign out</a>
+                            </div>
+                        </nav>
+                    </div>
+                </div>
+            </nav>
+
+            <script>
+                // Update your hamburger-navbar.js with this code
+                function toggleMenu() {
+                    const menu = document.querySelector('.menu-content');
+                    const icon = document.querySelector('.nav-burger .icon');
+
+                    if (menu.classList.contains('show')) {
+                        // Hide the menu with animation
+                        menu.classList.remove('show');
+                        setTimeout(() => {
+                            menu.style.display = "none"; // Ensure it's hidden after animation completes
+                        }, 400); // Matches the CSS transition duration
+                    } else {
+                        // Show the menu with animation
+                        menu.style.display = "block";
+                        setTimeout(() => {
+                            menu.classList.add('show');
+                        }, 10); // Small delay to trigger the animation after display block
+                    }
+
+                    // Toggle icon size if needed
+                    icon.style.fontSize = menu.classList.contains('show') ? "50px" : "50px"; // Adjust if necessary
+                }
+
+            </script>
+
+            <script>
+                // Get the current date
+                const currentDate = new Date();
+
+                // Days of the week array
+                const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+                // Months array
+                const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+                // Format the date (e.g., "Monday, December 29 2022")
+                const formattedDate = `${daysOfWeek[currentDate.getDay()]}, ${months[currentDate.getMonth()]} ${currentDate.getDate()} ${currentDate.getFullYear()}`;
+
+                // Get the date text element
+                const dateTextElement = document.getElementById('dateText');
+
+                // Set the date text
+                dateTextElement.innerHTML = formattedDate;
+
+                // Make the day bold and change the color
+                const dayText = daysOfWeek[currentDate.getDay()];
+                dateTextElement.innerHTML = dateTextElement.innerHTML.replace(dayText, `<span class="font-bold text-[#3D1746]">${dayText}</span>`);
+            </script>
+
+
+            <div class="main-container ">
+
+            </div>
+        </div>
+        <nav class="sidebar">
+            <div class="sidebar-content">
+                <div class="sidebar-top-content">
+
+                    <!------SIKHAY LOGO-->
+                    <div class="sikhay-logo py-3">
+                        <img src="{% static 'assets/logo_white.png' %}" alt="" width="200px">
+                    </div>
+
+                    <!-----PROFILE ADMIN------>
+                    <header class="sidebar-profile py-3 ">
+                        <div class="image-text text-white">
+                            <div class="text header-text flex flex-col items-center">
+                                <img class="masthead-avatar"
+                                    style="border-radius: 50%; background-color: white; border: 3px solid #F3BB00; width: 80px; text-align: center;"
+                                    src="{% static 'assets/Profile.jpg' %}" alt="">
+                                <p id="name-admin" class="mt-2">Mikhail Villanueva</p>
+                                <span class="name">Student</span>
+                            </div>
+                        </div>
+                    </header>
+
+                </div>
+            </div>
+
+            <div class="menu-bar text-white">
+                <div class="menu">
+                    <hr>
+
+                    <ul class="menu-links space-y-4">
+                        <!-- Home -->
+                        <li class="nav-link">
+                            <button onclick="window.location.href='#'"
+                                class="flex items-center space-x-2 p-2 rounded-md w-full text-left bg-transparent text-white hover:bg-white hover:text-[#3D1746] transition-colors duration-200">
+                                <i class="bx bxs-dashboard icon text-lg"></i>
+                                <span class="text nav-text">Home</span>
+                            </button>
+                        </li>
+                        <!-- Classes -->
+                        <li class="nav-link">
+                            <button onclick="window.location.href='/student_classes'"
+                                class="flex items-center space-x-2 p-2 rounded-md w-full text-left bg-transparent text-white hover:bg-white hover:text-[#3D1746] transition-colors duration-200">
+                                <i class='bx bxs-folder icon text-lg'></i>
+                                <span class="text nav-text">Classes</span>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+
+
+                <div class="bottom-content mt-8">
+                    <ul class="menu-links space-y-4">
+                        <!-- Logout -->
+                        <li>
+                            <form action="{% url 'login_view' %}" method="POST">
+                                {% csrf_token %}
+                                <button type="submit"
+                                    class="flex items-center space-x-2 p-2 rounded-md w-full text-left bg-transparent text-white hover:bg-white hover:text-[#3D1746] transition-colors duration-200">
+                                    <i class="bx bx-log-out icon text-lg"></i>
+                                    <span class="text nav-text">Logout</span>
+                                </button>
+                            </form>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+
+        </nav>
+    </div>
+
+</body>
+
+</html>
