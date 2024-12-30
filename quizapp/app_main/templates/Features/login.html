@@ -30,18 +30,33 @@
                         <div class="col col-xl-10">
                               <div class="card" style="border-radius: 1rem; border: none;">
                                     <div class="row g-0">
-                                          <div class="col-md-6 col-lg-5 d-none d-md-block">
-                                                <img src="{% static 'assets/logo_white.png' %}" alt="" width="200px"
+                                          <div class="col-md-6 col-lg-5 d-none d-md-block position-relative">
+                                                <!-- Absolute Heading -->
+                                                <div class="position-absolute text-white text-center w-100"
+                                                      style="top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 10;">
+                                                      <h1 style="font-size: 2.8rem; font-weight: bold;">Welcome Back!
+                                                      </h1>
+                                                      <p style="font-size: 1.2rem; margin-top: 10px;">
+                                                            We're excited to see you again and continue your learning
+                                                            journey.
+                                                      </p>
+                                                </div>
+
+                                                <!-- Logo -->
+                                                <img src="{% static 'assets/logo_white.png' %}" alt="Logo" width="200px"
                                                       style="position: absolute; margin: 20px 0px 0px 20px;">
-                                                      
+
+                                                <!-- Background Image -->
                                                 <img src="{% static 'assets/purplebackground.png' %}" alt="login form"
                                                       class="img-fluid"
-                                                      style="border-radius: 1rem 0 0 1rem; height: 600px;" />
+                                                      style="border-radius: 1rem 0 0 1rem; height: 700px;" />
                                           </div>
+
+
                                           <div class="col-md-6 col-lg-7 d-flex align-items-center ">
                                                 <div class="card-body text-black p-4">
 
-                                                      <form method="POST" action="{% url 'login_view' %}"> 
+                                                      <form method="POST" action="{% url 'login_view' %}">
                                                             {% csrf_token %}
                                                             <div class="d-flex align-items-center mb-3 pb-1">
                                                                   <span class="h1 fw-bold mb-0"
@@ -53,16 +68,17 @@
                                                                   Welcome back! Please log in to your account.
                                                             </h5>
 
-                                                             <!-- Messages Block -->
+                                                            <!-- Messages Block -->
                                                             <div>
                                                                   {% if messages %}
                                                                   {% for message in messages %}
-                                                                        <div class="alert alert-danger" role="alert" style="margin: 0; padding: 10px; color: red;">
-                                                                              {{ message }}
-                                                                        </div>
+                                                                  <div class="alert alert-danger" role="alert"
+                                                                        style="margin: 0; padding: 10px; color: red;">
+                                                                        {{ message }}
+                                                                  </div>
                                                                   {% endfor %}
                                                                   {% endif %}
-                                                            </div>                                                         
+                                                            </div>
                                                             <!-- Username Input -->
                                                             <div class="form-outline mb-4">
                                                                   <label class="form-label mb-0 text-muted"
@@ -80,20 +96,23 @@
                                                             </div>
 
                                                             <p class="text-end">
-                                                                  <a class="small" href="#!" style="text-decoration: none; color: #3E1847;">Forgot
+                                                                  <a class="small" href="#!"
+                                                                        style="text-decoration: none; color: #3E1847;">Forgot
                                                                         password?</a>
                                                             </p>
 
                                                             <!-- Submit Button -->
                                                             <div class="pt-1 mb-4 d-flex justify-content-center">
                                                                   <button class="btn btn-dark btn-lg btn-block px-5"
-                                                                        type="submit" style="background-color: #BD5DD5; width: 40%;">Login</button>
+                                                                        type="submit"
+                                                                        style="background-color: #BD5DD5; width: 50%;">Login</button>
                                                             </div>
 
                                                             <p class="mt-5 mb-5 pb-lg-2" style="color: #333333;">
                                                                   Don't have an account?
                                                                   <a href="{% url 'register_view' %}"
-                                                                        style="color: #3E1847; text-decoration: none;">Sign up</a>
+                                                                        style="color: #3E1847; text-decoration: none;">Sign
+                                                                        up</a>
                                                             </p>
                                                       </form>
 

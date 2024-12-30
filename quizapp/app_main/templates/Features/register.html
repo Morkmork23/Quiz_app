@@ -34,8 +34,11 @@
             .radio-container input {
                   accent-color: #000;
             }
-            body{
-                  overflow: hidden; /* Completely disables scrolling */
+
+            body {
+                  overflow-x: hidden;
+                  /* Completely disables scrolling */
+                  overflow-y: scroll;
             }
       </style>
 </head>
@@ -44,46 +47,64 @@
 <body style="background-color: #3E1847;">
       <section>
             <div class="container" style="background-color: #3E1847; box-shadow: none;">
-                  <div class="row d-flex justify-content-center align-items-center h-100">
-                        <div class="col col-xl-10">
+                  <div class="row d-flex justify-content-center align-items-center vh-100">
+                        <div class="col-xl-8">
                               <div class="card" style="border-radius: 1rem; border: none;">
                                     <div class="row g-0">
-                                          <div class="col-md-6 col-lg-5 d-none d-md-block">
-                                                <img src="{% static 'assets/logo_white.png' %}" alt="" width="200px"
-                                                      style="position: absolute; margin: 20px 0px 0px 20px;">
+                                          <!-- Left Column -->
+                                          <div class="col-md-6 d-flex flex-column align-items-center justify-content-center position-relative d-none d-md-block"
+                                                style="border-radius: 1rem 0 0 1rem; background-color: #6A1B9A;">
+                                                <!-- Absolute Heading -->
+                                                <div class="position-absolute text-white text-center w-100"
+                                                      style="top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 10;">
+                                                      <h1 style="font-size: 2.8rem; font-weight: bold;">Join Us Today!
+                                                      </h1>
+                                                      <p style="font-size: 1.2rem; margin-top: 10px;">
+                                                            Create your account now and unlock access to a world of
+                                                            learning and opportunities.
+                                                      </p>
+                                                </div>
 
+
+                                                <!-- Logo -->
+                                                <img src="{% static 'assets/logo_white.png' %}" alt="Logo" width="150px"
+                                                      class="position-absolute" style="top: 20px; left: 20px;">
+
+                                                <!-- Background Image -->
                                                 <img src="{% static 'assets/purplebackground.png' %}" alt="login form"
-                                                      class="img-fluid"
-                                                      style="border-radius: 1rem 0 0 1rem; height: 730px;" />
+                                                      class="img-fluid h-100 w-100"
+                                                      style="border-radius: 1rem 0 0 1rem; object-fit: cover;">
                                           </div>
-                                          <div class="col-md-6 col-lg-7 d-flex align-items-center ">
-                                                <div class="card-body text-black p-4">
 
+                                          <!-- Right Column -->
+                                          <div class="col-md-6 d-flex align-items-center justify-content-center">
+                                                <div class="card-body text-black p-4 w-100">
                                                       <form action="" method="POST">
                                                             {% csrf_token %}
-                                                            <div class="d-flex align-items-center mb-3 pb-1">
-                                                                  <span class="h1 fw-bold mb-0"
-                                                                        style="color: #333333;">Sign up</span>
+                                                            <div class="mb-3 pb-1 text-start">
+                                                                  <h1 class="fw-bold mb-0" style="color: #333333;">Sign
+                                                                        Up</h1>
                                                             </div>
 
-                                                            <h5 class="fw-normal pb-3" style="letter-spacing: 1px;">
-                                                                  Please input your details.
+                                                            <h5 class="fw-normal pb-3 text-start"
+                                                                  style="letter-spacing: 1px;">
+                                                                  Enter your details to create an account.
                                                             </h5>
 
                                                             <!-- User Type -->
                                                             <div class="mb-4">
                                                                   <label class="form-label mb-3 lead"
                                                                         style="font-size: 20px; font-weight: 500;">User
-                                                                        type</label>
-                                                                  <div class="radio-container ">
-                                                                        <div class="form-check mb-0">
+                                                                        Type</label>
+                                                                  <div class="d-flex justify-content-center">
+                                                                        <div class="form-check mx-3">
                                                                               <input class="form-check-input"
                                                                                     type="radio" name="userType"
                                                                                     id="student" value="student">
                                                                               <label class="form-check-label"
                                                                                     for="student">Student</label>
                                                                         </div>
-                                                                        <div class="form-check mb-0">
+                                                                        <div class="form-check mx-3">
                                                                               <input class="form-check-input"
                                                                                     type="radio" name="userType"
                                                                                     id="teacher" value="teacher">
@@ -93,71 +114,58 @@
                                                                   </div>
                                                             </div>
 
-                                                            <div class="">
-                                                                  <label class="form-label mb-3 lead"
-                                                                        style="font-size: 20px; font-weight: 500;">Details</label>
-                                                                  <!-- Name -->
-                                                                  <div class="mb-3">
-                                                                        <label for="name"
-                                                                              class="form-label mb-0 text-muted">Name</label>
-                                                                        <input type="text"
-                                                                              class="form-control form-control-lg"
-                                                                              id="name" name="name"
-                                                                              placeholder="Enter your Full Name"
-                                                                              required>
-                                                                  </div>
+                                                            <!-- Input Fields -->
+                                                            <div class="mb-3">
+                                                                  <label for="name"
+                                                                        class="form-label mb-0 text-muted">Name</label>
+                                                                  <input type="text"
+                                                                        class="form-control form-control-lg" id="name"
+                                                                        name="name" placeholder="Enter your Full Name"
+                                                                        required>
+                                                            </div>
 
+                                                            <div class="mb-3">
+                                                                  <label for="username"
+                                                                        class="form-label mb-0 text-muted">Username</label>
+                                                                  <input type="text"
+                                                                        class="form-control form-control-lg"
+                                                                        id="username" name="username"
+                                                                        placeholder="Enter your username" required>
+                                                            </div>
 
-                                                                  <!-- Username -->
-                                                                  <div class="mb-3">
-                                                                        <label for="username"
-                                                                              class="form-label mb-0 text-muted">Username</label>
-                                                                        <input type="text"
-                                                                              class="form-control form-control-lg"
-                                                                              id="username" name="username"
-                                                                              placeholder="Enter your username"
-                                                                              required>
-                                                                  </div>
+                                                            <div class="mb-3">
+                                                                  <label for="email"
+                                                                        class="form-label mb-0 text-muted">Email</label>
+                                                                  <input type="email"
+                                                                        class="form-control form-control-lg" id="email"
+                                                                        name="email" placeholder="Enter your email"
+                                                                        required>
+                                                            </div>
 
-                                                                  <!-- Email -->
-                                                                  <div class="mb-3">
-                                                                        <label for="email"
-                                                                              class="form-label mb-0 text-muted">Email</label>
-                                                                        <input type="email"
-                                                                              class="form-control form-control-lg"
-                                                                              id="email" name="email"
-                                                                              placeholder="Enter your email" required>
-                                                                  </div>
+                                                            <div class="mb-3">
+                                                                  <label for="password"
+                                                                        class="form-label mb-0 text-muted">Password</label>
+                                                                  <input type="password"
+                                                                        class="form-control form-control-lg"
+                                                                        id="password" name="password"
+                                                                        placeholder="Enter your password" required>
+                                                            </div>
 
-                                                                  <!-- Password -->
-                                                                  <div class="mb-3">
-                                                                        <label for="password"
-                                                                              class="form-label mb-0 text-muted">Password</label>
-                                                                        <input type="password"
-                                                                              class="form-control form-control-lg"
-                                                                              id="password" name="password"
-                                                                              placeholder="Enter your password"
-                                                                              required>
-                                                                  </div>
-
-                                                                  <!-- Submit Button -->
-                                                                  <div class="pt-1 d-flex justify-content-center">
-                                                                        <button type="submit"
-                                                                              class="btn btn-dark btn-lg w-40"
-                                                                              type="submit"
-                                                                              style="width: 40%; background-color: #BD5DD5;">Create
-                                                                              Account</button>
-                                                                  </div>
+                                                            <!-- Submit Button -->
+                                                            <div class="d-flex justify-content-center">
+                                                                  <button type="submit"
+                                                                        class="btn btn-lg w-50 text-white"
+                                                                        style="background-color: #BD5DD5;">Create
+                                                                        Account</button>
                                                             </div>
                                                       </form>
-
-
                                                 </div>
                                           </div>
                                     </div>
                               </div>
                         </div>
                   </div>
+
             </div>
       </section>
 </body>
