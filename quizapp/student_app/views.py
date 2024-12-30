@@ -32,5 +32,7 @@ def dashboard(request):
 
 def user_dashboard(request):
     return render(request, 'user_dashboard.html')
+def profile_manage(request):
+    return render(request, 'profile_manage.html')
 
 
