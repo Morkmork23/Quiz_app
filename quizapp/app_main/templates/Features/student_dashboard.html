@@ -12,6 +12,73 @@
     <title>Student Dashboard | Quizit</title>
 </head>
 
+<style>
+    /*NAV BURGER*/
+    .nav-burger {
+        display: inline-block;
+        float: right;
+        position: relative;
+        top: -3px;
+        color: #4A4A4A;
+    }
+
+    .nav-burger .icon {
+        font-size: 50px;
+        color: black;
+        cursor: pointer;
+    }
+
+    .menu-content {
+        display: none;
+        background-color: #F5F5F5;
+        position: absolute;
+        right: 0;
+        top: 50px;
+        width: 250px;
+        border-radius: 15px;
+        z-index: 1000;
+        box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+        opacity: 0;
+        transform: translateY(-20px);
+        transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    .menu-content.show {
+        display: block;
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .menu-content h2 {
+        color: black;
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        padding: 10px;
+    }
+
+    .menu-content a {
+        color: black;
+        display: flex;
+        text-decoration: none;
+        align-items: center;
+        gap: 7px;
+        font-size: 18px;
+        border: 1px solid #D4D4D4;
+        padding: 10px 20px;
+        font-weight: lighter;
+    }
+
+    .menu-content .icon {
+        font-size: 30px;
+        color: black;
+    }
+
+    .menu-content a:hover {
+        background-color: #cecdcd;
+    }
+</style>
+
 <body>
     <div class="main-container">
         <div class="right-side py-3 px-5 ">
@@ -24,13 +91,45 @@
                             <!-- Date -->
                             <a id="dateText" class="text-lg"></a>
                         </div>
-                        <!-- Links (Hidden on smaller screens) -->
-                        <div class="hidden md:flex space-x-4 items-center icon-menu">
-                            <i class='bx bx-menu icon' style="font-size: 50px; color: black; cursor: pointer;"></i>
-                        </div>
+
+                        <nav class="nav-burger">
+                            <i class='bx bx-menu icon' onclick="toggleMenu()"></i>
+                            <div class="menu-content">
+                                <h2><i class='bx bxs-cog icon'></i> SETTINGS </h2>
+                                <a href=""><i class='bx bxs-user-detail icon'></i> User Profile</a>
+                                <a style="border-radius: 0px 0px 15px 15px;" id="logout_openPopup"><i
+                                        class='bx bx-log-out icon'></i>Sign out</a>
+                            </div>
+                        </nav>
                     </div>
                 </div>
             </nav>
+
+            <script>
+                // Update your hamburger-navbar.js with this code
+                function toggleMenu() {
+                    const menu = document.querySelector('.menu-content');
+                    const icon = document.querySelector('.nav-burger .icon');
+
+                    if (menu.classList.contains('show')) {
+                        // Hide the menu with animation
+                        menu.classList.remove('show');
+                        setTimeout(() => {
+                            menu.style.display = "none"; // Ensure it's hidden after animation completes
+                        }, 400); // Matches the CSS transition duration
+                    } else {
+                        // Show the menu with animation
+                        menu.style.display = "block";
+                        setTimeout(() => {
+                            menu.classList.add('show');
+                        }, 10); // Small delay to trigger the animation after display block
+                    }
+
+                    // Toggle icon size if needed
+                    icon.style.fontSize = menu.classList.contains('show') ? "50px" : "50px"; // Adjust if necessary
+                }
+
+            </script>
 
             <script>
                 // Get the current date
@@ -57,8 +156,8 @@
             </script>
 
 
-            <div class="main-container">
-                <main class="relative">
+            <div class="main-container ">
+                <main class="relative bg-gray-100 mx-5 rounded border mt-10">
                     <!-- Top Right Button -->
                     <button id="joinClassButton"
                         class="absolute top-4 right-4 bg-purple-400 text-white px-4 py-2 rounded-md hover:bg-purple-500 focus:outline-none focus:ring-2 focus:ring-blue-300 flex items-center gap-1">
@@ -95,14 +194,17 @@
 
                     <!-- Class Joining Section -->
                     <section id="class-joining" class="mt-10">
-                        <div class="flex items-center justify-center gap-10 px-4">
+                        <div class="flex items-center justify-center gap-10 px-4 pb-4">
                             <!-- Form Section -->
-                            <form method="POST" action="{% url 'join_class' %}" class="flex flex-col gap-4 max-w-md w-full">
+                            <form method="POST" action="{% url 'join_class' %}"
+                                class="flex flex-col gap-4 max-w-md w-full">
                                 {% csrf_token %}
-                            
+
                                 <!-- Dynamic Heading with Animation -->
-                                <h1 id="greetingMessage" class="text-3xl font-bold text-gray-800 text-start opacity-0 translate-x-10">Hello, </h1>
-                            
+                                <h1 id="greetingMessage"
+                                    class="text-3xl font-bold text-gray-800 text-start opacity-0 translate-x-10">Hello,
+                                </h1>
+
                                 <!-- Input and Button Container -->
                                 <div class="flex items-center gap-4">
                                     <!-- Input Field -->
@@ -110,7 +212,7 @@
                                         <input type="text" name="class_code" placeholder="Enter a join code" required
                                             class="w-full px-4 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 text-lg rounded-md bg-gray-200">
                                     </div>
-                            
+
                                     <!-- Join Button -->
                                     <div class="join-button">
                                         <button type="submit"
@@ -120,48 +222,48 @@
                                     </div>
                                 </div>
                             </form>
-                            
+
                             <script>
                                 const greetingElement = document.getElementById('greetingMessage');
                                 const messages = [
-                                    "Get ready for your quiz journey!", 
-                                    "Time to start your quiz!", 
-                                    "Ready to test your knowledge?", 
-                                    "Your quiz adventure begins now!", 
+                                    "Get ready for your quiz journey!",
+                                    "Time to start your quiz!",
+                                    "Ready to test your knowledge?",
+                                    "Your quiz adventure begins now!",
                                     "Challenge yourself with this quiz!"
                                 ];
-                            
+
                                 let currentMessageIndex = 0;
-                            
+
                                 // Function to change the message with animation
                                 function changeMessage() {
                                     // Apply the slide-out and fade-out effect
                                     greetingElement.classList.remove("opacity-100", "translate-x-0");
                                     greetingElement.classList.add("opacity-0", "translate-x-10");
-                            
+
                                     setTimeout(() => {
                                         // Change the message text
                                         greetingElement.innerHTML = messages[currentMessageIndex];
-                            
+
                                         // Move to the next message, looping back if necessary
                                         currentMessageIndex = (currentMessageIndex + 1) % messages.length;
-                            
+
                                         // Apply the slide-in and fade-in effect
                                         greetingElement.classList.remove("opacity-0", "translate-x-10");
                                         greetingElement.classList.add("opacity-100", "translate-x-0", "transition-all", "duration-1000");
                                     }, 500); // Wait 0.5 seconds for the slide-out and fade-out effect
                                 }
-                            
+
                                 // Initial display of the first message with a slide-in effect
                                 setTimeout(() => {
                                     greetingElement.classList.remove("opacity-0", "translate-x-10");
                                     greetingElement.classList.add("opacity-100", "translate-x-0", "transition-all", "duration-1000");
                                 }, 100);
-                            
+
                                 // Start changing the messages every 10 seconds (10000 ms)
                                 setInterval(changeMessage, 10000);
                             </script>
-                            
+
 
                             <!-- Image Section -->
                             <div class="hidden md:block">
@@ -190,7 +292,7 @@
 
 
                 <!-- Class Quizzes -->
-                <main class="mt-0">
+                <main class="mt-10">
                     <section id="class-quizzes" class="bg-white p-0 px-5 relative z-10">
                         <h2 class="text-2xl font-semibold mb-5">Today Quiz</h2>
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -274,7 +376,7 @@
                                 <img class="masthead-avatar"
                                     style="border-radius: 50%; background-color: white; border: 3px solid #F3BB00; width: 80px; text-align: center;"
                                     src="{% static 'assets/Profile.jpg' %}" alt="">
-                                <p id="name-admin">Mikhail Villanueva</p>
+                                <p id="name-admin" class="mt-2">Mikhail Villanueva</p>
                                 <span class="name">Student</span>
                             </div>
                         </div>
@@ -285,7 +387,7 @@
 
             <div class="menu-bar text-white">
                 <div class="menu">
-                    <hr style="margin-top: 10px;">
+                    <hr>
 
                     <ul class="menu-links space-y-4">
                         <!-- Home -->
@@ -300,7 +402,7 @@
                         <li class="nav-link">
                             <button onclick="window.location.href='Student_Display.html'"
                                 class="flex items-center space-x-2 p-2 rounded-md w-full text-left bg-transparent text-white hover:bg-white hover:text-[#3D1746] transition-colors duration-200">
-                                <i class="bx bxs-user-account icon text-lg"></i>
+                                <i class='bx bxs-folder icon text-lg'></i>
                                 <span class="text nav-text">Classes</span>
                             </button>
                         </li>
