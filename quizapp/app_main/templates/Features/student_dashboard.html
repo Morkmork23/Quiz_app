@@ -216,7 +216,7 @@
                                     <!-- Join Button -->
                                     <div class="join-button">
                                         <button type="submit"
-                                            class="bg-yellow-500 text-white px-5 py-2 text-lg font-medium rounded-md hover:bg-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-300">
+                                            class="bg-yellow-400 text-white px-5 py-2 text-lg font-medium rounded-md hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-300">
                                             Join
                                         </button>
                                     </div>
@@ -293,39 +293,71 @@
 
                 <!-- Class Quizzes -->
                 <main class="mt-10">
-                    <section id="class-quizzes" class="bg-white p-0 px-5 relative z-10">
+
+                    <!-- Scores and Correct Items -->
+                    <section id="scores" class="bg-white p-0 mt-7 px-5">
+                        <h2 class="text-2xl font-semibold mb-5">Classes</h2>
+                        <div class="bg-gray-100 p-4 rounded border">
+                            <h3 class="text-xl font-medium mb-4">Recent Class</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                <div class="bg-white p-4 rounded shadow">
+                                    <h4 class="font-bold uppercase">CLASS NAME</h4>
+                                    <p class="text-gray-600">Teacher Name</p>
+                                    <button class="mt-4 bg-purple-400 text-white px-4 py-2 rounded hover:bg-purple-500">
+                                        View Class
+                                    </button>
+                                </div>
+                                <div class="bg-white p-4 rounded shadow">
+                                    <h4 class="font-bold uppercase">CLASS NAME</h4>
+                                    <p class="text-gray-600">Teacher Name</p>
+                                    <button class="mt-4 bg-purple-400 text-white px-4 py-2 rounded hover:bg-purple-500">
+                                        View Class
+                                    </button>
+                                </div>
+                                <div class="bg-white p-4 rounded shadow">
+                                    <h4 class="font-bold uppercase">CLASS NAME</h4>
+                                    <p class="text-gray-600">Teacher Name</p>
+                                    <button class="mt-4 bg-purple-400 text-white px-4 py-2 rounded hover:bg-purple-500">
+                                        View Class
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="class-quizzes" class="bg-white p-0 px-5 relative z-10 mt-7">
                         <h2 class="text-2xl font-semibold mb-5">Today Quiz</h2>
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                             <div class="bg-gray-100 p-4 rounded shadow relative">
                                 <h3 class="text-lg font-bold">Math Quiz 1</h3>
                                 <p class="text-gray-600">Scheduled: Dec 25, 2024, 10:00 AM</p>
-                                <button class="mt-4 bg-purple-400 text-white px-4 py-2 rounded hover:bg-purple-500">
+                                <button class="mt-4 bg-yellow-400 text-white px-4 py-2 rounded hover:bg-yellow-500">
                                     Take Quiz
                                 </button>
                                 <span
-                                    class="absolute top-2 right-2 text-sm bg-yellow-100 text-yellow-700 px-2 py-1 rounded">
+                                    class="absolute top-2 right-2 text-sm bg-purple-100 text-purple-700 px-2 py-1 rounded">
                                     Scheduled
                                 </span>
                             </div>
                             <div class="bg-gray-100 p-4 rounded shadow relative">
                                 <h3 class="text-lg font-bold">Science Quiz 1</h3>
                                 <p class="text-gray-600">Scheduled: Dec 30, 2024, 2:00 PM</p>
-                                <button class="mt-4 bg-purple-400 text-white px-4 py-2 rounded hover:bg-purple-500">
+                                <button class="mt-4 bg-yellow-400 text-white px-4 py-2 rounded hover:bg-yellow-500">
                                     Take Quiz
                                 </button>
                                 <span
-                                    class="absolute top-2 right-2 text-sm bg-yellow-100 text-yellow-700 px-2 py-1 rounded">
+                                    class="absolute top-2 right-2 text-sm bg-purple-100 text-purple-700 px-2 py-1 rounded">
                                     Scheduled
                                 </span>
                             </div>
                             <div class="bg-gray-100 p-4 rounded shadow relative">
                                 <h3 class="text-lg font-bold">Science Quiz 1</h3>
                                 <p class="text-gray-600">Scheduled: Dec 30, 2024, 2:00 PM</p>
-                                <button class="mt-4 bg-purple-400 text-white px-4 py-2 rounded hover:bg-purple-500">
+                                <button class="mt-4 bg-yellow-400 text-white px-4 py-2 rounded hover:bg-yellow-500">
                                     Take Quiz
                                 </button>
                                 <span
-                                    class="absolute top-2 right-2 text-sm bg-yellow-100 text-yellow-700 px-2 py-1 rounded">
+                                    class="absolute top-2 right-2 text-sm bg-purple-100 text-purple-700 px-2 py-1 rounded">
                                     Scheduled
                                 </span>
                             </div>
@@ -335,8 +367,19 @@
                     <!-- Scores and Correct Items -->
                     <section id="scores" class="bg-white p-0 mt-7 px-5">
                         <h2 class="text-2xl font-semibold mb-5">Scores</h2>
+
                         <div class="bg-gray-100 p-4 rounded border">
-                            <h3 class="text-xl font-medium mb-4">Recent Scores</h3>
+                            <div class="flex justify-between items-center mb-4">
+                                <!-- Section Title -->
+                                <h3 class="text-xl font-medium">Recent Scores</h3>
+
+                                <!-- Points Button -->
+                                <button
+                                    class="bg-purple-400 text-white px-4 py-2 rounded-md hover:bg-purple-500"
+                                    aria-label="Points Button">
+                                    Total Points: 120
+                                </button>
+                            </div>
                             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                 <div class="bg-white p-4 rounded shadow">
                                     <h4 class="font-bold">Math Quiz 1</h4>
@@ -358,6 +401,7 @@
                     </section>
 
                 </main>
+
             </div>
         </div>
         <nav class="sidebar">
@@ -392,7 +436,7 @@
                     <ul class="menu-links space-y-4">
                         <!-- Home -->
                         <li class="nav-link">
-                            <button onclick="window.location.href='Main_Page.html'"
+                            <button onclick="window.location.href='#'"
                                 class="flex items-center space-x-2 p-2 rounded-md w-full text-left bg-transparent text-white hover:bg-white hover:text-[#3D1746] transition-colors duration-200">
                                 <i class="bx bxs-dashboard icon text-lg"></i>
                                 <span class="text nav-text">Home</span>
@@ -400,7 +444,7 @@
                         </li>
                         <!-- Classes -->
                         <li class="nav-link">
-                            <button onclick="window.location.href='Student_Display.html'"
+                            <button onclick="window.location.href='/student_classes'"
                                 class="flex items-center space-x-2 p-2 rounded-md w-full text-left bg-transparent text-white hover:bg-white hover:text-[#3D1746] transition-colors duration-200">
                                 <i class='bx bxs-folder icon text-lg'></i>
                                 <span class="text nav-text">Classes</span>
