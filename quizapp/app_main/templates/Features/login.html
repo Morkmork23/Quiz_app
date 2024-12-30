@@ -53,6 +53,16 @@
                                                                   Welcome back! Please log in to your account.
                                                             </h5>
 
+                                                             <!-- Messages Block -->
+                                                            <div>
+                                                                  {% if messages %}
+                                                                  {% for message in messages %}
+                                                                        <div class="alert alert-danger" role="alert" style="margin: 0; padding: 10px; color: red;">
+                                                                              {{ message }}
+                                                                        </div>
+                                                                  {% endfor %}
+                                                                  {% endif %}
+                                                            </div>                                                         
                                                             <!-- Username Input -->
                                                             <div class="form-outline mb-4">
                                                                   <label class="form-label mb-0 text-muted"

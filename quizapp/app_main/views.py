@@ -62,6 +62,7 @@ def login_view(request):
                 return redirect(reverse('students_dashboard'))  
 
         except User.DoesNotExist:
+            # Add an error message for invalid credentials
             messages.error(request, "Invalid username or password.")
             return redirect(reverse('login_view'))
 

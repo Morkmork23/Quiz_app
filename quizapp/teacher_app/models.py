@@ -1,23 +1,23 @@
 from django.db import models
 from django.utils.crypto import get_random_string
+from django.contrib.auth.models import User
 
 class Student(models.Model):
     name = models.CharField(max_length=100)
 class Class(models.Model):
     name = models.CharField(max_length=100)
-    students = models.ManyToManyField('student_app.StudentProfile', related_name="classes_enrolled")  # Lazy import
-    teacher = models.ForeignKey('auth.User', on_delete=models.CASCADE, related_name='classes')
-    join_code = models.CharField(max_length=10, blank=True, null=True)
+    teacher = models.ForeignKey(User, on_delete=models.CASCADE)
+    students = models.ManyToManyField('student_app.StudentProfile', related_name='classes', blank=True)
+    join_code = models.CharField(max_length=8, blank=True, null=True)
 
     def generate_join_code(self):
         import random
-        import string
-        self.join_code = ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
+        self.join_code = ''.join(random.choices('ABCDEFGHJKLMNPQRSTUVWXYZ23456789', k=6))
         self.save()
+
             
     def __str__(self):
-            return self.name
-      
+        return f"{self.name} - {self.teacher.username}"
 
 class Quiz(models.Model):
     assigned_class = models.ForeignKey(Class, on_delete=models.CASCADE, related_name="quizzes")

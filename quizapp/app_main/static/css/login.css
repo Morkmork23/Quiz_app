@@ -11,14 +11,45 @@ body {
     background-color: #3E1847;
     overflow: hidden; /* Completely disables scrolling */
 }
+.img-fluid {
+    width: 100%; /* Allows the image to adapt to the column's width */
+    height: auto; /* Ensures the aspect ratio remains intact */
+    border-radius: 1rem 0 0 1rem; /* Retains the rounded corners */
+}
+
+.card {
+    display: flex; /* Flexbox to handle content layout dynamically */
+    flex-direction: row; /* Ensure horizontal alignment of children */
+    border-radius: 1rem; /* Keeps the rounded corner design */
+    border: none; /* Remove borders for a clean look */
+}
+
+.card-body {
+    padding: 2rem; /* Adequate spacing for form content */
+    width: 100%; /* Allow body to occupy available width */
+    flex-grow: 1; /* Ensure it expands dynamically */
+}
+
+.card .col-md-6 {
+    flex: 1; /* Ensure columns adjust proportionally */
+}
+
+.alert {
+    margin-bottom: 15px; /* Adds space below the error message */
+    padding: 10px;
+    color: red;
+    background-color: #ffebee;
+    border: 1px solid red;
+    border-radius: 5px;
+}
 
 .container {
-    background-color: #3E1847;
-    padding: 20px;
-    border-radius: 8px;
-    width: 100%;
-    max-width: 400px;
+    display: flex; /* Ensure responsive alignment */
+    justify-content: center;
+    align-items: center;
+    height: auto; /* Allow height to adjust dynamically */
 }
+
 
 .container h2 {
     text-align: center;
