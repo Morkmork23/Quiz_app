@@ -4,12 +4,12 @@ from django.contrib.auth.models import User
 from teacher_app.models import Class, Quiz
 
 class StudentProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="student_profile")
-    enrolled_classes = models.ManyToManyField('teacher_app.Class', related_name="students_in_class")
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    student_id = models.CharField(max_length=20, unique=True, default='0000')
+    enrolled_classes = models.ManyToManyField('teacher_app.Class', related_name='enrolled_students', blank=True)
 
     def __str__(self):
         return self.user.username
-
 
 class QuizAttempt(models.Model):
     student = models.ForeignKey(User, on_delete=models.CASCADE, related_name="quiz_attempts")

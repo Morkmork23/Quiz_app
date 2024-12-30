@@ -29,15 +29,10 @@ def create_class(request):
 def create_quiz(request):
     return HttpResponse("Create Quiz Page")
 
+@login_required
 def manage_class(request, class_id):
     class_instance = get_object_or_404(Class, id=class_id)
     enrolled_students = class_instance.students.all()
-
-    # Fetch recent students (optional)
-    recent_students = class_instance.students.order_by('-id')[:5]
-    if not class_instance.join_code:
-        class_instance.generate_join_code()  # Auto-generate if no code exists
-        class_instance.save()
 
     if request.method == 'POST':
         if 'rename' in request.POST:
@@ -48,16 +43,15 @@ def manage_class(request, class_id):
         elif 'delete' in request.POST:
             class_instance.delete()
             return redirect('class_list')
-        elif 'remove_student' in request.POST:
+        if 'remove_student' in request.POST:
             student_id = request.POST.get('student_id')
             student_to_remove = class_instance.students.get(id=student_id)
             class_instance.students.remove(student_to_remove)
-            messages.success(request, f"Removed {student_to_remove} from class.")
+            messages.success(request, f"Removed {student_to_remove.user.username} from class.")
 
     return render(request, 'manage_class.html', {
         'class': class_instance,
-        'students': enrolled_students,
-        'recent_students': recent_students
+        'students': enrolled_students
     })
 
 

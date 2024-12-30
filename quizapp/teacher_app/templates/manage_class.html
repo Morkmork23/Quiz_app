@@ -40,7 +40,7 @@
                 <h3 class="font-semibold text-lg text-red-600">Delete Class</h3>
                 <p class="text-gray-700">Are you sure you want to delete the class "{{ class.name }}"? This action cannot be undone.</p>
                 <button type="submit" name="delete" 
-                        class="w-full bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-300">
+                        class="w-full bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-300 delete-btn">
                     Delete Class
                 </button>
             </div>
@@ -49,9 +49,10 @@
             <div class="space-y-2">
                 <h3 class="font-semibold text-lg">Manage Students</h3>
                 <ul class="space-y-4">
+                    <h2>Enrolled Students</h2>
                     {% for student in students %}
                     <li class="flex justify-between items-center p-4 bg-gray-50 rounded-lg shadow-sm hover:bg-gray-100">
-                        <span>{{ student.name }}</span>
+                        <span>{{ student.user.username }} ({{ student.student_id }})</span>
                         <form method="POST" class="inline">
                             {% csrf_token %}
                             <input type="hidden" name="student_id" value="{{ student.id }}">
@@ -108,6 +109,13 @@
         // Close Modal
         document.getElementById('close-modal').addEventListener('click', function() {
             document.getElementById('joinCodeModal').classList.add('hidden');
+        });
+
+        // Confirm before deleting class
+        document.querySelector('.delete-btn').addEventListener('click', function(e) {
+            if (!confirm('Are you sure you want to delete this class? This action cannot be undone.')) {
+                e.preventDefault();
+            }
         });
     </script>
 
