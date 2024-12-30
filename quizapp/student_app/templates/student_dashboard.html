@@ -96,8 +96,8 @@
                             <i class='bx bx-menu icon' onclick="toggleMenu()"></i>
                             <div class="menu-content">
                                 <h2><i class='bx bxs-cog icon'></i> SETTINGS </h2>
-                                <a href=""><i class='bx bxs-user-detail icon'></i> User Profile</a>
-                                <a style="border-radius: 0px 0px 15px 15px;" id="logout_openPopup"><i
+                                <a href="{% url 'profile_manage'%}"><i class='bx bxs-user-detail icon'></i> User Profile</a>
+                                <a href="{% url 'login_view' %}" style="border-radius: 0px 0px 15px 15px;" id="logout_openPopup"><i
                                         class='bx bx-log-out icon'></i>Sign out</a>
                             </div>
                         </nav>
@@ -298,12 +298,14 @@
                         <div class="bg-gray-100 p-4 rounded border">
                             <h3 class="text-xl font-medium mb-4">Recent Classes</h3>
                             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                {% for class_instance in enrolled_classes %}
+                              {% for class_data in class_teacher_data %}
                                 <div class="bg-white p-4 rounded shadow">
-                                    <h4 class="font-bold uppercase">{{ class_instance.name }}</h4>
-                                    <p class="text-gray-600">{{ class_instance.teacher.username }}</p>
+                                    <h4 class="font-bold uppercase">{{ class_data.class_name }}</h4>
+                                    
+                                    <!-- this was supposed to display the professors name but it displays the student or the user -->
+                                    <p class="text-gray-600"> {{ class_data.teacher_username }}</p>
                                     <button class="mt-4 bg-purple-400 text-white px-4 py-2 rounded hover:bg-purple-500">
-                                        View Class
+                                        <a href="{% url 'student_classes' %}">View Class</a>
                                     </button>
                                 </div>
                                 {% empty %}
