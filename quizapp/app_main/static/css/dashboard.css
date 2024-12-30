@@ -47,12 +47,6 @@
     transition: var(--tran-02);
 }
 
-.sidebar header .image-text {
-
-}
-
-.sidebar .menu {
-}
 .sidebar-top-content{
    display: flex;
    flex-direction: column;
@@ -140,15 +134,6 @@ i {
     font-weight: lighter;
 }
 
-.image-text {
-   
-}
-
-.image-text img {
-    width: 70px;
-    height: auto;
-}
-
 .notification_icon .bxs-bell {
     font-size: 35px;
     margin-top: 22px;
@@ -183,3 +168,4 @@ i {
 .titleDashboard {
     text-align: center;
 }
+
