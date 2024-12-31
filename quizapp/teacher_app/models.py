@@ -46,3 +46,12 @@ class Question(models.Model):
 
     def __str__(self):
         return self.question_text
+
+class Participant(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name='participants')
+    score = models.PositiveIntegerField(default=0)  # Example field for storing score
+    date_taken = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.quiz.title}"
