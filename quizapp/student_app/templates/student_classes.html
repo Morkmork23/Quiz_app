@@ -97,7 +97,7 @@
                             <div class="menu-content">
                                 <h2><i class='bx bxs-cog icon'></i> SETTINGS </h2>
                                 <a href=""><i class='bx bxs-user-detail icon'></i> User Profile</a>
-                                <a style="border-radius: 0px 0px 15px 15px;" id="logout_openPopup"><i
+                                <a href="{% url 'login_view' %}" style="border-radius: 0px 0px 15px 15px;" id="logout_openPopup"><i
                                         class='bx bx-log-out icon'></i>Sign out</a>
                             </div>
                         </nav>
@@ -314,7 +314,7 @@
                             <button
                                 class="flex items-center space-x-2 p-2 rounded-md w-full text-left bg-transparent text-white hover:bg-white hover:text-[#3D1746] transition-colors duration-200">
                                 <i class="bx bxs-dashboard icon text-lg"></i>
-                                <span class="text nav-text"><a href="">Home</a></span>
+                                <span class="text nav-text"><a href="{% url 'students_dashboard' %}">Home</a></span>
                             </button>
                         </li>
                         <!-- Classes -->
