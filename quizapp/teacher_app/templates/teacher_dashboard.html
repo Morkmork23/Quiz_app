@@ -6,21 +6,106 @@
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <script src="https://cdn.tailwindcss.com"></script>
-      <title>Teacher Dashboard</title>
+      <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+      <title>Teacher Dashboard | Quizit</title>
       <style>
             [x-cloak] {
                   display: none !important;
             }
+            /*NAV BURGER*/
+    .nav-burger {
+        display: inline-block;
+        float: right;
+        position: relative;
+        top: -3px;
+        color: #4A4A4A;
+    }
+
+    .nav-burger .icon {
+        font-size: 50px;
+        color: black;
+        cursor: pointer;
+    }
+
+    .menu-content {
+        display: none;
+        background-color: #F5F5F5;
+        position: absolute;
+        right: 0;
+        top: 50px;
+        width: 250px;
+        border-radius: 15px;
+        z-index: 1000;
+        box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+        opacity: 0;
+        transform: translateY(-20px);
+        transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    .menu-content.show {
+        display: block;
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .menu-content h2 {
+        color: black;
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        padding: 10px;
+    }
+
+    .menu-content a {
+        color: black;
+        display: flex;
+        text-decoration: none;
+        align-items: center;
+        gap: 7px;
+        font-size: 18px;
+        border: 1px solid #D4D4D4;
+        padding: 10px 20px;
+        font-weight: lighter;
+    }
+
+    .menu-content .icon {
+        font-size: 30px;
+        color: black;
+    }
+
+    .menu-content a:hover {
+        background-color: #cecdcd;
+    }
       </style>
 </head>
 
 <body class="bg-gray-50 min-h-screen flex" x-data="{ open: false }">
 
       <!-- Sidebar -->
-      <aside class="bg-blue-700 text-white min-h-screen w-64 fixed lg:static z-20 transform lg:translate-x-0 transition-transform duration-300"
+      <aside class="text-white min-h-screen w-64 fixed lg:static z-20 transform lg:translate-x-0 transition-transform duration-300"
             :class="open ? 'translate-x-0' : '-translate-x-full'">
+      <nav class="sidebar">
+            <div class="sidebar-content">
+                  <div class="sidebar-top-content">
+                      <!------LOGO-->
+                      <div class="sikhay-logo py-3">
+                          <img src="{% static 'assets/logo_white.png' %}" alt="" width="200px">
+                      </div>
+                      <!-----PROFILE ADMIN------> 
+                          <header class="sidebar-profile py-3">
+                                <div class="image-text text-white">
+                                <div class="text header-text flex flex-col items-center">
+                                      <img class="masthead-avatar"
+                                            style="border-radius: 50%; background-color: white; border: 3px solid #F3BB00; width: 80px; text-align: center;"
+                                            src="{% static 'assets/Profile.jpg' %}" alt="">
+                                      <p id="name-admin" class="mt-2">{{ request.user.username }}</p> <!-- Displaying the username -->
+                                      <span class="name">Teacher</span>
+                                </div>
+                                </div>
+                          </header>
+                  </div>
+              </div>  
             <div class="p-6">
-                  <h1 class="text-2xl font-bold mb-6">Teacher Dashboard</h1>
                   <nav>
                         <ul class="space-y-4">
                               <li>
@@ -42,11 +127,12 @@
                   <form action="{% url 'login_view' %}" method="POST" class="inline">
                         {% csrf_token %}
                         <button type="submit"
-                              class="bg-white text-blue-600 w-full px-6 py-2 rounded-lg font-semibold hover:bg-gray-100 transition duration-300">
+                              class="bg-white text-violet-800 w-full px-6 py-2 rounded-lg font-semibold hover:bg-gray-100 transition duration-300">
                               Logout
                         </button>
                   </form>
             </div>
+          </nav>
       </aside>
 
       <!-- Hamburger Button -->
@@ -63,10 +149,26 @@
 
       <!-- Main Content -->
       <div class="flex-1 ml-0">
-            <header class="bg-blue-700 text-white shadow-md">
-                  <div class="container mx-auto px-6 py-4">
-                        <h1 class="text-2xl font-bold">Yummy Quiz</h1>
-                  </div>
+            <header class="right-side py-3 px-5 ">
+                  <div class="mx-auto">
+                        <div class="flex justify-between items-center h-16">
+                            <!-- Logo -->
+                            <div class="flex flex-col">
+                                <a href="#" class="text-4xl font-bold">Yummy Quiz</a>
+                                <!-- Date -->
+                                <a id="dateText" class="text-lg"></a>
+                            </div>
+                            <nav class="nav-burger">
+                              <i class='bx bx-menu icon' onclick="toggleMenu()"></i>
+                              <div class="menu-content">
+                                  <h2><i class='bx bxs-cog icon'></i> SETTINGS </h2>
+                                  <a href="{% url 'profile_manage'%}"><i class='bx bxs-user-detail icon'></i> User Profile</a>
+                                  <a href="{% url 'login_view' %}" style="border-radius: 0px 0px 15px 15px;" id="logout_openPopup"><i
+                                          class='bx bx-log-out icon'></i>Sign out</a>
+                              </div>
+                          </nav>
+                        </div>
+                    </div>
             </header>
 
             <main class="container mx-auto p-6 space-y-12">
