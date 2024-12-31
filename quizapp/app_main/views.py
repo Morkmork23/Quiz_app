@@ -67,4 +67,3 @@ def login_view(request):
             return redirect(reverse('login_view'))
 
     return render(request, 'Features/login.html')
-
