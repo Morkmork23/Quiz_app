@@ -1,15 +1,424 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="{% static 'assets/icon.png' %}">
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <title>Student Dashboard | Quizit</title>
 </head>
+
+<style>
+    /*NAV BURGER*/
+    .nav-burger {
+        display: inline-block;
+        float: right;
+        position: relative;
+        top: -3px;
+        color: #4A4A4A;
+    }
+
+    .nav-burger .icon {
+        font-size: 50px;
+        color: black;
+        cursor: pointer;
+    }
+
+    .menu-content {
+        display: none;
+        background-color: #F5F5F5;
+        position: absolute;
+        right: 0;
+        top: 50px;
+        width: 250px;
+        border-radius: 15px;
+        z-index: 1000;
+        box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+        opacity: 0;
+        transform: translateY(-20px);
+        transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    .menu-content.show {
+        display: block;
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .menu-content h2 {
+        color: black;
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        padding: 10px;
+    }
+
+    .menu-content a {
+        color: black;
+        display: flex;
+        text-decoration: none;
+        align-items: center;
+        gap: 7px;
+        font-size: 18px;
+        border: 1px solid #D4D4D4;
+        padding: 10px 20px;
+        font-weight: lighter;
+    }
+
+    .menu-content .icon {
+        font-size: 30px;
+        color: black;
+    }
+
+    .menu-content a:hover {
+        background-color: #cecdcd;
+    }
+</style>
+
 <body>
-    <div>
-        Profile management design goes here.
+    <div class="main-container">
+        <div class="right-side py-3 px-5 ">
+            <nav class="text-black px-5">
+                <div class="mx-auto">
+                    <div class="flex justify-between items-center h-16">
+                        <!-- Logo -->
+                        <div class="flex flex-col">
+                            <a href="#" class="text-4xl font-bold">Profile</a>
+                            <!-- Date -->
+                            <a id="dateText" class="text-lg"></a>
+                        </div>
+
+                        <nav class="nav-burger">
+                            <i class='bx bx-menu icon' onclick="toggleMenu()"></i>
+                            <div class="menu-content">
+                                <h2><i class='bx bxs-cog icon'></i> SETTINGS </h2>
+                                <a href=""><i class='bx bxs-user-detail icon'></i> User Profile</a>
+                                <a style="border-radius: 0px 0px 15px 15px;" id="logout_openPopup"><i
+                                        class='bx bx-log-out icon'></i>Sign out</a>
+                            </div>
+                        </nav>
+                    </div>
+                </div>
+            </nav>
+
+            <script>
+                // Update your hamburger-navbar.js with this code
+                function toggleMenu() {
+                    const menu = document.querySelector('.menu-content');
+                    const icon = document.querySelector('.nav-burger .icon');
+
+                    if (menu.classList.contains('show')) {
+                        // Hide the menu with animation
+                        menu.classList.remove('show');
+                        setTimeout(() => {
+                            menu.style.display = "none"; // Ensure it's hidden after animation completes
+                        }, 400); // Matches the CSS transition duration
+                    } else {
+                        // Show the menu with animation
+                        menu.style.display = "block";
+                        setTimeout(() => {
+                            menu.classList.add('show');
+                        }, 10); // Small delay to trigger the animation after display block
+                    }
+
+                    // Toggle icon size if needed
+                    icon.style.fontSize = menu.classList.contains('show') ? "50px" : "50px"; // Adjust if necessary
+                }
+
+            </script>
+
+            <script>
+                // Get the current date
+                const currentDate = new Date();
+
+                // Days of the week array
+                const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+                // Months array
+                const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+                // Format the date (e.g., "Monday, December 29 2022")
+                const formattedDate = `${daysOfWeek[currentDate.getDay()]}, ${months[currentDate.getMonth()]} ${currentDate.getDate()} ${currentDate.getFullYear()}`;
+
+                // Get the date text element
+                const dateTextElement = document.getElementById('dateText');
+
+                // Set the date text
+                dateTextElement.innerHTML = formattedDate;
+
+                // Make the day bold and change the color
+                const dayText = daysOfWeek[currentDate.getDay()];
+                dateTextElement.innerHTML = dateTextElement.innerHTML.replace(dayText, `<span class="font-bold text-[#3D1746]">${dayText}</span>`);
+            </script>
+
+
+            <div class="main-container ">
+
+                <!-- Back Button -->
+                <a href="#" class="flex items-center text-[#3D1746] text-2xl hover:underline mt-10">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 mr-3" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" stroke-width="2" stroke="#3D1746">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                    </svg>
+                    Back
+                </a>
+                <main
+                    class="mt-10 flex flex-col lg:flex-row items-center lg:items-start gap-10 bg-white rounded-lg shadow border p-6">
+                    <!-- Left Side: Profile -->
+                    <section
+                        class="w-full lg:w-1/3 flex flex-col items-center bg-gradient-to-br from-purple-500 to-purple-600 text-white rounded-lg p-6 shadow-xl">
+                        <div class="relative">
+                            <img src="https://via.placeholder.com/150" alt="Student Profile Picture"
+                                class="w-32 h-32 rounded-full mb-4 border-4 border-white shadow-lg" />
+                        </div>
+                        <h2 class="text-xl font-bold mt-4">John Doe</h2>
+                        <p class="text-white text-opacity-80">Student</p>
+                    </section>
+
+                    <!-- Right Side: Tabs and Content -->
+                    <section class="w-full lg:w-2/3 bg-white p-8 relative py-0">
+                        <!-- Tab Buttons -->
+                        <div class="flex justify-between border-b mb-6">
+                            <button id="overview-tab"
+                                class="tab-button px-4 py-2 font-medium text-gray-600 hover:text-purple-600 hover:border-purple-600">Overview</button>
+                            <button id="settings-tab"
+                                class="tab-button px-4 py-2 font-medium text-gray-600 hover:text-purple-600 hover:border-purple-600">Settings</button>
+                            <button id="security-tab"
+                                class="tab-button px-4 py-2 font-medium text-gray-600 hover:text-purple-600 hover:border-purple-600">Security</button>
+                        </div>
+
+                        <!-- Tab Content -->
+                        <div id="overview" class="tab">
+                            <h3 class="text-lg font-semibold mb-6 text-gray-800 border-b pb-2">Overview</h3>
+                            <div class="space-y-4">
+                                <div class="flex justify-between items-center">
+                                    <label class="block text-gray-600 font-medium w-1/3">Full Name:</label>
+                                    <p class="text-gray-900 w-2/3">John Doe</p>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <label class="block text-gray-600 font-medium w-1/3">Email:</label>
+                                    <p class="text-gray-900 w-2/3">johndoe@example.com</p>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <label class="block text-gray-600 font-medium w-1/3">Phone Number:</label>
+                                    <p class="text-gray-900 w-2/3">123-456-7890</p>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <label class="block text-gray-600 font-medium w-1/3">Age:</label>
+                                    <p class="text-gray-900 w-2/3">23</p>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div id="settings" class="tab hidden">
+                            <h3 class="text-lg font-semibold mb-6 text-gray-800 border-b pb-2">Edit Profile</h3>
+                            <form class="space-y-6">
+                                <!-- Profile Picture Upload -->
+                                <div class="flex items-center gap-4">
+                                    <img src="https://via.placeholder.com/100" alt="Profile Picture"
+                                        class="w-20 h-20 rounded-full border-2 border-gray-300 object-cover" />
+                                    <div>
+                                        <label class="block text-gray-600 font-medium mb-2" for="profile-picture">
+                                            Change Profile Picture:
+                                        </label>
+                                        <input id="profile-picture" type="file"
+                                            class="text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-yellow-50 file:text-yellow-700 hover:file:bg-yellow-100" />
+                                    </div>
+                                </div>
+
+                                <!-- Name Field -->
+                                <div>
+                                    <label class="block text-gray-600 font-medium">Name:</label>
+                                    <input type="text" value="John Doe" class="w-full px-4 py-2 border rounded" />
+                                </div>
+
+                                <!-- Email Field -->
+                                <div>
+                                    <label class="block text-gray-600 font-medium">Email:</label>
+                                    <input type="email" value="johndoe@example.com"
+                                        class="w-full px-4 py-2 border rounded" />
+                                </div>
+
+                                <!-- Phone Field -->
+                                <div>
+                                    <label class="block text-gray-600 font-medium">Phone:</label>
+                                    <input type="text" value="1234567890" class="w-full px-4 py-2 border rounded" />
+                                </div>
+
+                                <!-- Age Field -->
+                                <div>
+                                    <label class="block text-gray-600 font-medium">Age:</label>
+                                    <input type="text" value="23" class="w-full px-4 py-2 border rounded" />
+                                </div>
+
+                                <!-- Save Changes Button -->
+                                <button type="submit"
+                                    class="flex items-center gap-2 px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="1.5">
+                                        <path
+                                            d="M19.09 14.441v4.44a2.37 2.37 0 0 1-2.369 2.369H5.12a2.37 2.37 0 0 1-2.369-2.383V7.279a2.356 2.356 0 0 1 2.37-2.37H9.56" />
+                                        <path
+                                            d="M6.835 15.803v-2.165c.002-.357.144-.7.395-.953l9.532-9.532a1.36 1.36 0 0 1 1.934 0l2.151 2.151a1.36 1.36 0 0 1 0 1.934l-9.532 9.532a1.36 1.36 0 0 1-.953.395H8.197a1.36 1.36 0 0 1-1.362-1.362M19.09 8.995l-4.085-4.086" />
+                                    </svg>
+                                    Save Changes
+                                </button>
+                            </form>
+
+                        </div>
+
+                        <div id="security" class="tab hidden">
+                            <h3 class="text-lg font-semibold mb-6 text-gray-800 border-b pb-2">Change Password</h3>
+                            <form class="space-y-6">
+                                <div>
+                                    <label class="block text-gray-600 font-medium">Current Password:</label>
+                                    <input type="password" class="w-full px-4 py-2 border rounded">
+                                </div>
+                                <div>
+                                    <label class="block text-gray-600 font-medium">New Password:</label>
+                                    <input type="password" class="w-full px-4 py-2 border rounded">
+                                </div>
+                                <div>
+                                    <label class="block text-gray-600 font-medium">Confirm New Password:</label>
+                                    <input type="password" class="w-full px-4 py-2 border rounded">
+                                </div>
+                                <button type="submit"
+                                    class="flex items-center gap-2 px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 48 48">
+                                        <defs>
+                                            <mask id="ipTMemoryCardOne0">
+                                                <g fill="none" stroke="#fff" stroke-linejoin="round" stroke-width="4">
+                                                    <path
+                                                        d="M6 9a3 3 0 0 1 3-3h21.336a3 3 0 0 1 2.122.879l3.858 3.858l4.805 4.805A3 3 0 0 1 42 17.664V39a3 3 0 0 1-3 3H9a3 3 0 0 1-3-3z" />
+                                                    <path fill="#555555"
+                                                        d="M31 26H17a3 3 0 0 0-3 3v13h20V29a3 3 0 0 0-3-3Z" />
+                                                    <path stroke-linecap="round" d="M29 16H17a3 3 0 0 1-3-3V6" />
+                                                </g>
+                                            </mask>
+                                        </defs>
+                                        <path fill="currentColor" d="M0 0h48v48H0z" mask="url(#ipTMemoryCardOne0)" />
+                                    </svg>
+                                    Update Password
+                                </button>
+
+                            </form>
+                        </div>
+                    </section>
+                </main>
+
+                <script>
+                    const tabs = document.querySelectorAll('.tab-button');
+                    const contents = document.querySelectorAll('.tab');
+
+                    // Function to switch tabs
+                    function switchTab(targetId) {
+                        contents.forEach(content => content.classList.add('hidden'));
+                        document.getElementById(targetId).classList.remove('hidden');
+
+                        tabs.forEach(tab => {
+                            tab.classList.remove('text-purple-600', 'border-purple-600');
+                            tab.classList.add('text-gray-600', 'hover:text-purple-600', 'hover:border-purple-600');
+                        });
+
+                        const activeTab = document.getElementById(targetId + '-tab');
+                        activeTab.classList.add('text-purple-600', 'border-purple-600');
+                        activeTab.classList.remove('hover:text-purple-600', 'hover:border-purple-600');
+                    }
+
+                    tabs.forEach(tab => {
+                        tab.addEventListener('click', () => {
+                            const target = tab.id.replace('-tab', '');
+                            switchTab(target);
+                        });
+                    });
+
+                    // Show Overview by default
+                    switchTab('overview');
+                </script>
+
+
+
+
+            </div>
+        </div>
+        <nav class="sidebar">
+            <div class="sidebar-content">
+                <div class="sidebar-top-content">
+
+                    <!------SIKHAY LOGO-->
+                    <div class="sikhay-logo py-3">
+                        <img src="{% static 'assets/logo_white.png' %}" alt="" width="200px">
+                    </div>
+
+                    <!-----PROFILE ADMIN------>
+                    <header class="sidebar-profile py-3 ">
+                        <div class="image-text text-white">
+                            <div class="text header-text flex flex-col items-center">
+                                <img class="masthead-avatar"
+                                    style="border-radius: 50%; background-color: white; border: 3px solid #F3BB00; width: 80px; text-align: center;"
+                                    src="{% static 'assets/Profile.jpg' %}" alt="">
+                                <p id="name-admin" class="mt-2">Mikhail Villanueva</p>
+                                <span class="name">Student</span>
+                            </div>
+                        </div>
+                    </header>
+
+                </div>
+            </div>
+
+            <div class="menu-bar text-white">
+                <div class="menu">
+                    <hr>
+
+                    <ul class="menu-links space-y-4">
+                        <!-- Home -->
+                        <li class="nav-link">
+                            <button
+                                class="flex items-center space-x-2 p-2 rounded-md w-full text-left bg-transparent text-white hover:bg-white hover:text-[#3D1746] transition-colors duration-200">
+                                <i class="bx bxs-dashboard icon text-lg"></i>
+                                <span class="text nav-text"><a href="">Home</a></span>
+                            </button>
+                        </li>
+                        <!-- Classes -->
+                        <li class="nav-link">
+                            <button
+                                class="flex items-center space-x-2 p-2 rounded-md w-full text-left bg-transparent text-white hover:bg-white hover:text-[#3D1746] transition-colors duration-200">
+                                <i class='bx bxs-folder icon text-lg'></i>
+                                <span class="text nav-text"> <a href="{% url 'student_classes' %}">Classes</a></span>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+
+
+                <div class="bottom-content mt-8">
+                    <ul class="menu-links space-y-4">
+                        <!-- Logout -->
+                        <li>
+                            <form action="{% url 'login_view' %}" method="POST">
+                                {% csrf_token %}
+                                <button type="submit"
+                                    class="flex items-center space-x-2 p-2 rounded-md w-full text-left bg-transparent text-white hover:bg-white hover:text-[#3D1746] transition-colors duration-200">
+                                    <i class="bx bx-log-out icon text-lg"></i>
+                                    <span class="text nav-text">Logout</span>
+                                </button>
+                            </form>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+
+        </nav>
     </div>
-    <h1>Hello World</h1>
+
 </body>
+
 </html>

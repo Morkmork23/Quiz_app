@@ -291,6 +291,7 @@
                                                 Quiz</a>
                                     </div>
                                     <div class="bg-gray-100 p-6 rounded border">
+                                          <h3 class="text-xl font-medium mb-4">Your Quizzes</h3>
                                           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                                 {% for quiz in quizzes %}
                                                 <div class="bg-gray-100 p-4 rounded shadow relative">
@@ -342,9 +343,10 @@
 
                                     <!-- Classes Section -->
                                     <div class="p-0">
+                                          <h3 class="text-xl font-medium mb-4">Recent Class</h3>
                                           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                                                 {% for class in classes %}
-                                                <div class="bg-white rounded shadow p-4 hover:shadow-lg transition-all">
+                                                <div class="bg-white rounded shadow p-4">
                                                       <h4 class="font-bold">{{ class.name }}</h4>
                                                       <p class="text-gray-600">{{ class.students.count }} Students</p>
                                                       <a href="{% url 'manage_class' class.id %}"
@@ -416,7 +418,7 @@
                                                 class="flex items-center space-x-2 p-2 rounded-md w-full text-left bg-transparent text-white hover:bg-white hover:text-[#3D1746] transition-colors duration-200">
                                                 <i class='bx bxs-folder icon text-lg'></i>
                                                 <span class="text nav-text"> <a
-                                                            href="#quiz-management">Classes</a></span>
+                                                            href="">Classes</a></span>
                                           </button>
                                     </li>
                                     <!-- Classes -->
