@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import Class, Quiz, Question, Participant  # Import the models
+from .models import Class, Quiz, Question, Participant, Choice  # Import the models
 from django.http import JsonResponse
 
 @login_required
@@ -29,56 +29,59 @@ def create_class(request):
 
 from django.http import JsonResponse
 
+@login_required
 def create_quiz(request):
     if request.method == 'POST':
-        # Quiz details
+        # Get the quiz data from the form
         title = request.POST.get('title')
-        description = request.POST.get('description', '')
-        assigned_class_id = request.POST.get('assigned_class')
+        description = request.POST.get('description')
         scheduled_date = request.POST.get('scheduled_date')
         duration_minutes = request.POST.get('duration_minutes')
+        assigned_class_id = request.POST.get('assigned_class')
+        assigned_class = Class.objects.get(id=assigned_class_id)
 
-        # Validate required fields
-        if not title or not assigned_class_id or not scheduled_date or not duration_minutes:
-            messages.error(request, "Please fill in all required fields.")
-            return redirect('create_quiz')
-
-        try:
-            assigned_class = Class.objects.get(id=assigned_class_id)
-        except Class.DoesNotExist:
-            messages.error(request, "Selected class does not exist.")
-            return redirect('create_quiz')
-
-        # Create quiz
+        # Create a new quiz
         quiz = Quiz.objects.create(
+            assigned_class=assigned_class,
             title=title,
             description=description,
-            assigned_class=assigned_class,
             scheduled_date=scheduled_date,
-            duration_minutes=int(duration_minutes),
+            duration_minutes=duration_minutes
         )
 
-        # Handle questions
-        questions_data = request.POST.getlist('questions')
-        for question_data in questions_data:
-            question_text = question_data.get('text')
-            question_type = question_data.get('type')
-            correct_answer = question_data.get('correct_answer')
+        # Process each question
+        questions_data = request.POST.getlist('questions[][text]')
+        question_types = request.POST.getlist('questions[][type]')
+        correct_answers = request.POST.getlist('questions[][correct_answer]')
+        choices_data = request.POST.getlist('questions[][choices][]')
+        correct_choices = request.POST.getlist('questions[][correct_choices][]')
+
+        for idx, question_text in enumerate(questions_data):
+            question_type = question_types[idx]
+            correct_answer = correct_answers[idx]
 
             # Create the question
-            Question.objects.create(
+            question = Question.objects.create(
                 quiz=quiz,
                 question_text=question_text,
                 question_type=question_type,
-                correct_answer=correct_answer,
+                correct_answer=correct_answer
             )
 
-        messages.success(request, "Quiz and questions created successfully!")
-        return JsonResponse({'success': True, 'quiz_id': quiz.id})
+            # If it's a multiple-choice question, create choices
+            if question_type == 'MCQ':
+                for choice_text, is_correct in zip(choices_data[idx::len(choices_data)], correct_choices):
+                    Choice.objects.create(
+                        question=question,
+                        choice_text=choice_text,
+                        is_correct=(is_correct == 'on')  # True if checkbox is checked
+                    )
 
-    # Fetch data for rendering
-    classes = Class.objects.all()
-    return render(request, 'quiz_creation.html', {'classes': classes})
+        return redirect('quiz_list')  # Redirect to the quiz list after creating the quiz
+
+    # Fetch classes to display in the dropdown for class assignment
+    classes = Class.objects.filter(teacher=request.user)
+    return render(request, 'manage_quiz.html', {'classes': classes})
 
 @login_required
 def manage_class(request, class_id):
@@ -129,16 +132,36 @@ def generate_join_code(request, class_id):
 
 
 def manage_quiz(request, quiz_id):
+    # Get the quiz object
     quiz = get_object_or_404(Quiz, id=quiz_id)
-    participants = Participant.objects.filter(quiz=quiz)
-    return render(request, 'manage_quiz.html', {'quiz': quiz, 'participants': participants})
+    
+    # Fetch the related questions
+    questions = quiz.questions.all()  # Ensure related questions are loaded
+    
+    # Fetch the participants (students) for the quiz
+    participants = quiz.participants.all()  # Assuming 'participants' is the related field for students
+    
+    # Fetch the class assigned to the quiz
+    assigned_class = quiz.assigned_class  # Assuming this is the foreign key to the class
+    
+    # Fetch the students enrolled in that class (if needed)
+    enrolled_students = assigned_class.students.all()  # Assuming the class has a 'students' related field
+    
+    # Pass the context to the template
+    return render(request, 'manage_quiz.html', {
+        'quiz': quiz,
+        'questions': questions,
+        'participants': participants,
+        'assigned_class': assigned_class,  # Pass the assigned class to the template
+        'enrolled_students': enrolled_students,  # Optionally pass enrolled students
+    })
 
 def delete_quiz(request, quiz_id):
     quiz = get_object_or_404(Quiz, id=quiz_id)
     if request.method == 'POST':
         quiz.delete()
         messages.success(request, 'Quiz deleted successfully.')
-        return redirect('quiz_management')
+        return redirect('teacher_dashboard')
 
 def delete_question(request, question_id):
     question = get_object_or_404(Question, id=question_id)
@@ -148,6 +171,7 @@ def delete_question(request, question_id):
         messages.success(request, 'Question deleted successfully.')
         return redirect('manage_quiz', quiz_id=quiz_id)
     
+@login_required
 def add_question(request, quiz_id):
     quiz = get_object_or_404(Quiz, id=quiz_id)
 
@@ -161,17 +185,31 @@ def add_question(request, quiz_id):
             messages.error(request, "Please provide all fields for the question.")
             return redirect('manage_quiz', quiz_id=quiz.id)
 
-        # Create the question
-        Question.objects.create(
+        # Create the question and associate it with the quiz
+        question = Question.objects.create(
             quiz=quiz,
             question_text=question_text,
             question_type=question_type,
             correct_answer=correct_answer,
         )
+
+        # For MCQ questions, handle the choices as well
+        if question_type == 'MCQ':
+            choices = request.POST.getlist('choices[]')
+            correct_choices = request.POST.getlist('correct_choices[]')
+            for index, choice_text in enumerate(choices):
+                is_correct = str(index) in correct_choices
+                Choice.objects.create(
+                    question=question,
+                    choice_text=choice_text,
+                    is_correct=is_correct,
+                )
+
         messages.success(request, "Question added successfully!")
         return redirect('manage_quiz', quiz_id=quiz.id)
 
     return redirect('manage_quiz', quiz_id=quiz.id)
+
 
 def edit_question(request, question_id):
     question = get_object_or_404(Question, id=question_id)

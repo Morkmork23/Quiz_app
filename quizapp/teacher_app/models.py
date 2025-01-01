@@ -41,11 +41,16 @@ class Question(models.Model):
 
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name="questions")
     question_text = models.TextField()
-    question_type = models.CharField(max_length=3, choices=QUESTION_TYPES)
-    correct_answer = models.TextField()  # Correct answer for auto-checking
+    question_type = models.CharField(max_length=10, choices=[('MCQ', 'Multiple Choice'), ('TF', 'True/False'), ('ID', 'Identification')])
+    correct_answer = models.TextField(null=True, blank=True)  # For non-MCQ types
 
     def __str__(self):
         return self.question_text
+
+class Choice(models.Model):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name="choices")
+    choice_text = models.TextField()
+    is_correct = models.BooleanField(default=False)
 
 class Participant(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

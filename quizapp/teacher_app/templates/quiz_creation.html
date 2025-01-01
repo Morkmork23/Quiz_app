@@ -74,8 +74,11 @@
                 <h3 class="font-semibold text-xl mb-4">Questions</h3>
                 <button type="button" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 mb-4"
                     onclick="addQuestion()">Add Question</button>
-                <div id="questionContainer"></div>
+                <div id="questionContainer">
+                    <!-- Dynamically added questions will go here -->
+                </div>
             </div>
+            
 
             <button type="submit" class="bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700">Create Quiz</button>
         </form>
@@ -84,7 +87,7 @@
         <div class="mt-8">
             <h3 class="font-semibold text-xl mb-4">Recent Quizzes</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {% for quiz in recent_quizzes %}
+                {% for quiz in quizzes %}
                     <div class="bg-gray-100 p-4 rounded">
                         <h4 class="font-bold">{{ quiz.title }}</h4>
                         <p class="text-gray-600">Assigned to: {{ quiz.assigned_class.name }}</p>
@@ -110,40 +113,70 @@
                 <div id="${questionId}" class="bg-white p-4 rounded shadow mb-4">
                     <label for="${questionId}_text" class="block font-medium mb-2">Question Text</label>
                     <input type="text" name="questions[][text]" id="${questionId}_text" class="w-full border rounded p-3" required>
+                    
                     <label for="${questionId}_type" class="block font-medium mb-2">Question Type</label>
-                    <select name="questions[][type]" id="${questionId}_type" class="w-full border rounded p-3" onchange="toggleChoices(this, '${questionId}')">
+                    <select name="questions[][type]" id="${questionId}_type" class="w-full border rounded p-3" 
+                            onchange="toggleChoicesAndAnswer(this, '${questionId}')">
                         <option value="MCQ">Multiple Choice</option>
                         <option value="TF">True/False</option>
                         <option value="ID">Identification</option>
                     </select>
+                    
                     <div id="${questionId}_choices" class="mt-4 hidden">
                         <label class="block font-medium mb-2">Choices</label>
-                        <button type="button" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" onclick="addChoice('${questionId}')">Add Choice</button>
+                        <button type="button" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 mb-2"
+                                onclick="addChoice('${questionId}')">Add Choice</button>
                         <div id="${questionId}_choicesContainer" class="mt-4"></div>
                     </div>
-                    <label for="${questionId}_answer" class="block font-medium mt-4">Correct Answer</label>
-                    <input type="text" name="questions[][correct_answer]" id="${questionId}_answer" class="w-full border rounded p-3" required>
-                    <button type="button" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 mt-4" onclick="removeElement('${questionId}')">Remove Question</button>
+                    
+                    <div id="${questionId}_answerSection" class="mt-4">
+                        <label id="${questionId}_answerLabel" class="block font-medium">Correct Answer</label>
+                        <input type="text" name="questions[][correct_answer]" id="${questionId}_answer" 
+                            class="w-full border rounded p-3" required>
+                    </div>
+
+                    <button type="button" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 mt-4"
+                            onclick="removeElement('${questionId}')">Remove Question</button>
                 </div>
             `;
             container.insertAdjacentHTML("beforeend", questionHTML);
         }
 
+    
         function addChoice(questionId) {
             const container = document.getElementById(`${questionId}_choicesContainer`);
-            const choiceHTML = `<input type="text" name="questions[][choices][]" class="w-full border rounded p-3 mt-2" placeholder="Enter choice">`;
+            const choiceId = `choice_${Date.now()}`;
+            const choiceHTML = `
+                <div id="${choiceId}" class="flex items-center gap-2 mb-2">
+                    <input type="text" name="questions[][choices][]" class="w-full border rounded p-3" placeholder="Enter choice" required>
+                    <input type="checkbox" name="questions[][correct_choices][]" value="${choiceId}" class="w-6 h-6">
+                    <button type="button" class="bg-red-500 text-white px-3 py-1 rounded" onclick="removeElement('${choiceId}')">X</button>
+                </div>
+            `;
             container.insertAdjacentHTML("beforeend", choiceHTML);
         }
-
-        function toggleChoices(select, questionId) {
+    
+        function toggleChoicesAndAnswer(select, questionId) {
             const choicesDiv = document.getElementById(`${questionId}_choices`);
-            choicesDiv.classList.toggle('hidden', select.value !== 'MCQ');
+            const answerSection = document.getElementById(`${questionId}_answerSection`);
+            const answerInput = document.getElementById(`${questionId}_answer`);
+            const answerLabel = document.getElementById(`${questionId}_answerLabel`);
+    
+            if (select.value === 'MCQ') {
+                choicesDiv.classList.remove('hidden');
+                answerInput.type = 'hidden'; // Hide the default answer input
+                answerLabel.textContent = 'Correct Choices';
+            } else {
+                choicesDiv.classList.add('hidden');
+                answerInput.type = 'text'; // Show the default answer input
+                answerLabel.textContent = 'Correct Answer';
+            }
         }
-
+    
         function removeElement(id) {
             document.getElementById(id).remove();
         }
-    </script>
+    </script>    
 </body>
 
 </html>
