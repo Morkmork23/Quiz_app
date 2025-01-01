@@ -12,70 +12,71 @@
             [x-cloak] {
                   display: none !important;
             }
+
             /*NAV BURGER*/
-    .nav-burger {
-        display: inline-block;
-        float: right;
-        position: relative;
-        top: -3px;
-        color: #4A4A4A;
-    }
+            .nav-burger {
+                  display: inline-block;
+                  float: right;
+                  position: relative;
+                  top: -3px;
+                  color: #4A4A4A;
+            }
 
-    .nav-burger .icon {
-        font-size: 50px;
-        color: black;
-        cursor: pointer;
-    }
+            .nav-burger .icon {
+                  font-size: 50px;
+                  color: black;
+                  cursor: pointer;
+            }
 
-    .menu-content {
-        display: none;
-        background-color: #F5F5F5;
-        position: absolute;
-        right: 0;
-        top: 50px;
-        width: 250px;
-        border-radius: 15px;
-        z-index: 1000;
-        box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
-        opacity: 0;
-        transform: translateY(-20px);
-        transition: opacity 0.4s ease, transform 0.4s ease;
-    }
+            .menu-content {
+                  display: none;
+                  background-color: #F5F5F5;
+                  position: absolute;
+                  right: 0;
+                  top: 50px;
+                  width: 250px;
+                  border-radius: 15px;
+                  z-index: 1000;
+                  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+                  opacity: 0;
+                  transform: translateY(-20px);
+                  transition: opacity 0.4s ease, transform 0.4s ease;
+            }
 
-    .menu-content.show {
-        display: block;
-        opacity: 1;
-        transform: translateY(0);
-    }
+            .menu-content.show {
+                  display: block;
+                  opacity: 1;
+                  transform: translateY(0);
+            }
 
-    .menu-content h2 {
-        color: black;
-        display: flex;
-        align-items: center;
-        gap: 7px;
-        padding: 10px;
-    }
+            .menu-content h2 {
+                  color: black;
+                  display: flex;
+                  align-items: center;
+                  gap: 7px;
+                  padding: 10px;
+            }
 
-    .menu-content a {
-        color: black;
-        display: flex;
-        text-decoration: none;
-        align-items: center;
-        gap: 7px;
-        font-size: 18px;
-        border: 1px solid #D4D4D4;
-        padding: 10px 20px;
-        font-weight: lighter;
-    }
+            .menu-content a {
+                  color: black;
+                  display: flex;
+                  text-decoration: none;
+                  align-items: center;
+                  gap: 7px;
+                  font-size: 18px;
+                  border: 1px solid #D4D4D4;
+                  padding: 10px 20px;
+                  font-weight: lighter;
+            }
 
-    .menu-content .icon {
-        font-size: 30px;
-        color: black;
-    }
+            .menu-content .icon {
+                  font-size: 30px;
+                  color: black;
+            }
 
-    .menu-content a:hover {
-        background-color: #cecdcd;
-    }
+            .menu-content a:hover {
+                  background-color: #cecdcd;
+            }
       </style>
 </head>
 
@@ -84,55 +85,56 @@
       <!-- Sidebar -->
       <aside class="text-white min-h-screen w-64 fixed lg:static z-20 transform lg:translate-x-0 transition-transform duration-300"
             :class="open ? 'translate-x-0' : '-translate-x-full'">
-      <nav class="sidebar">
-            <div class="sidebar-content">
-                  <div class="sidebar-top-content">
-                      <!------LOGO-->
-                      <div class="sikhay-logo py-3">
-                          <img src="{% static 'assets/logo_white.png' %}" alt="" width="200px">
-                      </div>
-                      <!-----PROFILE ADMIN------> 
-                          <header class="sidebar-profile py-3">
-                                <div class="image-text text-white">
-                                <div class="text header-text flex flex-col items-center">
-                                      <img class="masthead-avatar"
-                                            style="border-radius: 50%; background-color: white; border: 3px solid #F3BB00; width: 80px; text-align: center;"
-                                            src="{% static 'assets/Profile.jpg' %}" alt="">
-                                      <p id="name-admin" class="mt-2">{{ request.user.username }}</p> <!-- Displaying the username -->
-                                      <span class="name">Teacher</span>
-                                </div>
-                                </div>
-                          </header>
+            <nav class="sidebar">
+                  <div class="sidebar-content">
+                        <div class="sidebar-top-content">
+                              <!------LOGO-->
+                              <div class="sikhay-logo py-3">
+                                    <img src="{% static 'assets/logo_white.png' %}" alt="" width="200px">
+                              </div>
+                              <!-----PROFILE ADMIN------>
+                              <header class="sidebar-profile py-3">
+                                    <div class="image-text text-white">
+                                          <div class="text header-text flex flex-col items-center">
+                                                <img class="masthead-avatar"
+                                                      style="border-radius: 50%; background-color: white; border: 3px solid #F3BB00; width: 80px; text-align: center;"
+                                                      src="{% static 'assets/Profile.jpg' %}" alt="">
+                                                <p id="name-admin" class="mt-2">{{ request.user.username }}</p>
+                                                <!-- Displaying the username -->
+                                                <span class="name">Teacher</span>
+                                          </div>
+                                    </div>
+                              </header>
+                        </div>
                   </div>
-              </div>  
-            <div class="p-6">
-                  <nav>
-                        <ul class="space-y-4">
-                              <li>
-                                    <a href="#class-management"
-                                          class="block text-lg hover:underline hover:text-blue-300 transition duration-300">Classes</a>
-                              </li>
-                              <li>
-                                    <a href="#quiz-management"
-                                          class="block text-lg hover:underline hover:text-blue-300 transition duration-300">Quizzes</a>
-                              </li>
-                              <li>
-                                    <a href="#reports"
-                                          class="block text-lg hover:underline hover:text-blue-300 transition duration-300">Reports</a>
-                              </li>
-                        </ul>
-                  </nav>
-            </div>
-            <div class="mt-auto p-6">
-                  <form action="{% url 'login_view' %}" method="POST" class="inline">
-                        {% csrf_token %}
-                        <button type="submit"
-                              class="bg-white text-violet-800 w-full px-6 py-2 rounded-lg font-semibold hover:bg-gray-100 transition duration-300">
-                              Logout
-                        </button>
-                  </form>
-            </div>
-          </nav>
+                  <div class="p-6">
+                        <nav>
+                              <ul class="space-y-4">
+                                    <li>
+                                          <a href="#class-management"
+                                                class="block text-lg hover:underline hover:text-blue-300 transition duration-300">Classes</a>
+                                    </li>
+                                    <li>
+                                          <a href="#quiz-management"
+                                                class="block text-lg hover:underline hover:text-blue-300 transition duration-300">Quizzes</a>
+                                    </li>
+                                    <li>
+                                          <a href="#reports"
+                                                class="block text-lg hover:underline hover:text-blue-300 transition duration-300">Reports</a>
+                                    </li>
+                              </ul>
+                        </nav>
+                  </div>
+                  <div class="mt-auto p-6">
+                        <form action="{% url 'login_view' %}" method="POST" class="inline">
+                              {% csrf_token %}
+                              <button type="submit"
+                                    class="bg-white text-violet-800 w-full px-6 py-2 rounded-lg font-semibold hover:bg-gray-100 transition duration-300">
+                                    Logout
+                              </button>
+                        </form>
+                  </div>
+            </nav>
       </aside>
 
       <!-- Hamburger Button -->
@@ -152,23 +154,24 @@
             <header class="py-3 px-5 ">
                   <div class="mx-auto">
                         <div class="flex justify-between items-center h-16">
-                            <!-- Logo -->
-                            <div class="flex flex-col">
-                                <a href="#" class="text-4xl font-bold">Yummy Quiz</a>
-                                <!-- Date -->
-                                <a id="dateText" class="text-lg"></a>
-                            </div>
-                            <nav class="nav-burger">
-                              <i class='bx bx-menu icon' onclick="toggleMenu()"></i>
-                              <div class="menu-content">
-                                  <h2><i class='bx bxs-cog icon'></i> SETTINGS </h2>
-                                  <a href="{% url 'profile_manage'%}"><i class='bx bxs-user-detail icon'></i> User Profile</a>
-                                  <a href="{% url 'login_view' %}" style="border-radius: 0px 0px 15px 15px;" id="logout_openPopup"><i
-                                          class='bx bx-log-out icon'></i>Sign out</a>
+                              <!-- Logo -->
+                              <div class="flex flex-col">
+                                    <a href="#" class="text-4xl font-bold">Yummy Quiz</a>
+                                    <!-- Date -->
+                                    <a id="dateText" class="text-lg"></a>
                               </div>
-                          </nav>
+                              <nav class="nav-burger">
+                                    <i class='bx bx-menu icon' onclick="toggleMenu()"></i>
+                                    <div class="menu-content">
+                                          <h2><i class='bx bxs-cog icon'></i> SETTINGS </h2>
+                                          <a href="{% url 'profile_manage'%}"><i class='bx bxs-user-detail icon'></i>
+                                                User Profile</a>
+                                          <a href="{% url 'login_view' %}" style="border-radius: 0px 0px 15px 15px;"
+                                                id="logout_openPopup"><i class='bx bx-log-out icon'></i>Sign out</a>
+                                    </div>
+                              </nav>
                         </div>
-                    </div>
+                  </div>
             </header>
 
             <main class="container mx-auto p-6 space-y-12">
@@ -199,42 +202,46 @@
                         </div>
                   </section>
                   <!-- Quiz Management Section -->
-                        <section id="quiz-management" class="bg-white p-8 rounded-lg shadow-md">
-                              <div class="flex justify-between items-center mb-6">
+                  <section id="quiz-management" class="bg-white p-8 rounded-lg shadow-md">
+                        <div class="flex justify-between items-center mb-6">
                               <h2 class="text-2xl font-semibold">Quiz Management</h2>
                               <a href="{% url 'create_quiz' %}"
-                                    class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Create New Quiz</a>
-                              </div>
-                              <div class="bg-gray-100 p-6 rounded border">
+                                    class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Create New
+                                    Quiz</a>
+                        </div>
+                        <div class="bg-gray-100 p-6 rounded border">
                               <h3 class="text-xl font-medium mb-4">Your Quizzes</h3>
                               <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     {% for quiz in quizzes %}
-                                          <div class="bg-white p-4 rounded shadow">
+                                    <div class="bg-white p-4 rounded shadow">
                                           <h4 class="font-bold text-lg">{{ quiz.title }}</h4>
                                           <p class="text-gray-600">Assigned to: {{ quiz.assigned_class.name }}</p>
                                           <div class="flex space-x-4 mt-2">
-                                                <a href="{% url 'view_results' quiz.id %}" class="text-green-600 hover:underline">View Results</a>
+                                                <a href="{% url 'view_results' quiz.id %}"
+                                                      class="text-green-600 hover:underline">View Results</a>
                                                 <a href="{% url 'manage_quiz' quiz.id %}">Manage Quiz</a>
-                                                <form action="{% url 'delete_quiz' quiz.id %}" method="POST" class="inline-block">
+                                                <form action="{% url 'delete_quiz' quiz.id %}" method="POST"
+                                                      class="inline-block">
                                                       {% csrf_token %}
                                                       <button type="submit"
-                                                      class="text-red-600 hover:underline flex items-center">
-                                                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24"
-                                                            stroke="currentColor" stroke-width="2">
-                                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                                  d="M9 13h6m2 9H7a2 2 0 01-2-2V7h14v13a2 2 0 01-2 2zM10 11V5h4v6M4 7h16" />
-                                                      </svg>
-                                                      Delete
+                                                            class="text-red-600 hover:underline flex items-center">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1"
+                                                                  fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                                                  stroke-width="2">
+                                                                  <path stroke-linecap="round" stroke-linejoin="round"
+                                                                        d="M9 13h6m2 9H7a2 2 0 01-2-2V7h14v13a2 2 0 01-2 2zM10 11V5h4v6M4 7h16" />
+                                                            </svg>
+                                                            Delete
                                                       </button>
                                                 </form>
                                           </div>
-                                          </div>
+                                    </div>
                                     {% empty %}
-                                          <p class="text-gray-600">You have no quizzes yet.</p>
+                                    <p class="text-gray-600">You have no quizzes yet.</p>
                                     {% endfor %}
                               </div>
-                              </div>
-                        </section>                        
+                        </div>
+                  </section>
                   <!-- Reports Section -->
                   <section id="reports" class="bg-white p-8 rounded-lg shadow-md">
                         <h2 class="text-2xl font-semibold mb-6">Reports</h2>

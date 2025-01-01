@@ -67,5 +67,5 @@ def login_view(request):
 
     return render(request, 'Features/login.html')
 
-def viewprofile(request):
-    return render(request, 'Features/viewprofile.html')
+def viewclasses(request):
+    return render(request, 'Features/viewclasses.html')
