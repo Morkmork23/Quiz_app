@@ -67,3 +67,5 @@ def login_view(request):
 
     return render(request, 'Features/login.html')
 
+def teacherclasses(request):
+    return render(request, 'Features/teacherclasses.html')
