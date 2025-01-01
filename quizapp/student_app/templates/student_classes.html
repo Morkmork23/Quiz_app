@@ -96,7 +96,7 @@
                             <i class='bx bx-menu icon' onclick="toggleMenu()"></i>
                             <div class="menu-content">
                                 <h2><i class='bx bxs-cog icon'></i> SETTINGS </h2>
-                                <a href=""><i class='bx bxs-user-detail icon'></i> User Profile</a>
+                                <a href="{% url 'profile_manage'%}"><i class='bx bxs-user-detail icon'></i> User Profile</a>
                                 <a href="{% url 'login_view' %}" style="border-radius: 0px 0px 15px 15px;" id="logout_openPopup"><i
                                         class='bx bx-log-out icon'></i>Sign out</a>
                             </div>
