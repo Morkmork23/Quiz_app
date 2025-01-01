@@ -7,7 +7,6 @@ from .models import User  # Import your custom User model
 def landing_page(request):
     return render(request, 'Features/landing_page.html')
 
-
 def register_view(request):
     if request.method == 'POST':
         user_type = request.POST.get('userType')
@@ -67,3 +66,6 @@ def login_view(request):
             return redirect(reverse('login_view'))
 
     return render(request, 'Features/login.html')
+
+def viewprofile(request):
+    return render(request, 'Features/viewprofile.html')
