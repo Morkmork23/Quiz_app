@@ -3,89 +3,147 @@
 <html lang="en">
 
 <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <script src="https://cdn.tailwindcss.com"></script>
-      <title>Teacher Dashboard</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Teacher Dashboard</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        main {
+            flex-grow: 1;
+        }
+    </style>
 </head>
 
-<body class="bg-gray-50 min-h-screen">
-      <header class="bg-blue-700 text-white shadow-md">
-            <!-- Top Header -->
-            <div class="container mx-auto flex justify-between items-center px-6 py-4">
-                  <h1 class="text-2xl font-bold">Teacher Dashboard</h1>
+<body class="bg-gray-50">
+    <header class="bg-blue-700 text-white shadow-md">
+        <div class="container mx-auto flex justify-between items-center px-6 py-4">
+            <h1 class="text-2xl font-bold">Teacher Dashboard</h1>
+        </div>
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center border-t-2 border-white/30">
+            <h1 class="text-2xl font-bold">Quiz Dashboard</h1>
+            <form action="{% url 'login_view' %}" method="POST" class="inline">
+                {% csrf_token %}
+                <button type="submit"
+                    class="bg-white text-blue-600 px-6 py-2 rounded-lg font-semibold hover:bg-gray-100 transition duration-300">
+                    Logout
+                </button>
+            </form>
+        </div>
+    </header>
 
+    <main class="container mx-auto p-6 space-y-12">
+        <!-- Quiz Creation -->
+        <form id="create-quiz-form" method="POST">
+            {% csrf_token %}
+            <div>
+                <label for="quiz-title" class="block font-medium mb-2">Quiz Title</label>
+                <input type="text" name="title" id="quiz-title" class="w-full border rounded p-3" placeholder="Enter quiz title" required>
+            </div>
+            <div>
+                <label for="description" class="block font-medium mb-2">Quiz Description</label>
+                <textarea name="description" id="description" class="w-full border rounded p-3" placeholder="Enter quiz description"></textarea>
+            </div>
+            <div>
+                <label for="assigned-class" class="block font-medium mb-2">Assign Class</label>
+                <select name="assigned_class" id="assigned-class" class="w-full border rounded p-3" required>
+                    <option value="">Select a class</option>
+                    {% for class in classes %}
+                        <option value="{{ class.id }}">{{ class.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label for="schedule" class="block font-medium mb-2">Scheduled Date</label>
+                    <input type="datetime-local" name="scheduled_date" id="schedule" class="w-full border rounded p-3" required>
+                </div>
+                <div>
+                    <label for="duration" class="block font-medium mb-2">Quiz Duration (minutes)</label>
+                    <input type="number" name="duration_minutes" id="duration" class="w-full border rounded p-3" placeholder="Enter time in minutes" required>
+                </div>
             </div>
 
-            <!-- Bottom Header -->
-            <div class="container mx-auto px-6 py-4 flex justify-between items-center border-t-2 border-white/30">
-                  <h1 class="text-2xl font-bold">Quiz Dashboard</h1>
-                  <form action="{% url 'login_view' %}" method="POST" class="inline">
-                        {% csrf_token %}
-                        <button type="submit"
-                              class="bg-white text-blue-600 px-6 py-2 rounded-lg font-semibold hover:bg-gray-100 transition duration-300">
-                              Logout
-                        </button>
-                  </form>
+            <!-- Dynamic Question Section -->
+            <div id="questionsSection" class="mt-8">
+                <h3 class="font-semibold text-xl mb-4">Questions</h3>
+                <button type="button" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 mb-4"
+                    onclick="addQuestion()">Add Question</button>
+                <div id="questionContainer"></div>
             </div>
-      </header>
 
+            <button type="submit" class="bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700">Create Quiz</button>
+        </form>
 
-      <main class="container mx-auto p-6 space-y-12">
+        <!-- Recent Quizzes -->
+        <div class="mt-8">
+            <h3 class="font-semibold text-xl mb-4">Recent Quizzes</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {% for quiz in recent_quizzes %}
+                    <div class="bg-gray-100 p-4 rounded">
+                        <h4 class="font-bold">{{ quiz.title }}</h4>
+                        <p class="text-gray-600">Assigned to: {{ quiz.assigned_class.name }}</p>
+                        <p class="text-gray-600">Scheduled: {{ quiz.scheduled_date|date:"M d, Y H:i" }}</p>
+                        <p class="text-gray-600">Duration: {{ quiz.duration_minutes }} minutes</p>
+                    </div>
+                {% empty %}
+                    <p>No quizzes created yet.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </main>
 
-            <!-- Quiz Creation -->
-            <section id="quiz-creation" class="bg-white p-8 rounded-lg shadow-md">
-                  <h2 class="text-2xl font-semibold mb-6">Quiz Creation</h2>
-                  <form id="create-quiz-form" class="space-y-6">
-                        <div>
-                              <label for="quiz-title" class="block font-medium mb-2">Quiz Title</label>
-                              <input type="text" id="quiz-title" class="w-full border rounded p-3"
-                                    placeholder="Enter quiz title">
-                        </div>
-                        <div>
-                              <label for="assigned-class" class="block font-medium mb-2">Assign Class</label>
-                              <select id="assigned-class" class="w-full border rounded p-3">
-                                    <option value="">Select a class</option>
-                                    <option value="class-1">Math 101</option>
-                                    <option value="class-2">Science 202</option>
-                              </select>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                              <div>
-                                    <label for="schedule" class="block font-medium mb-2">Schedule</label>
-                                    <input type="datetime-local" id="schedule" class="w-full border rounded p-3">
-                              </div>
-                              <div>
-                                    <label for="timer" class="block font-medium mb-2">Quiz Timer (minutes)</label>
-                                    <input type="number" id="timer" class="w-full border rounded p-3"
-                                          placeholder="Enter time in minutes">
-                              </div>
-                        </div>
-                        <button type="button" class="bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700">Create
-                              Quiz</button>
-                  </form>
-                  <div class="mt-8">
-                        <h3 class="font-semibold text-xl mb-4">Recent Quizzes</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                              <div class="bg-gray-100 p-4 rounded">
-                                    <h4 class="font-bold">Math Quiz 1</h4>
-                                    <p class="text-gray-600">Assigned to: Math 101</p>
-                                    <button class="text-blue-600 hover:underline mt-2">View Details</button>
-                              </div>
-                              <div class="bg-gray-100 p-4 rounded">
-                                    <h4 class="font-bold">Science Quiz 1</h4>
-                                    <p class="text-gray-600">Assigned to: Science 202</p>
-                                    <button class="text-blue-600 hover:underline mt-2">View Details</button>
-                              </div>
-                        </div>
-                  </div>
-            </section>
+    <footer class="bg-gray-800 text-white text-center py-4">
+        <p>&copy; 2024 Quiz Management System. All rights reserved.</p>
+    </footer>
 
-      </main>
+    <script>
+        function addQuestion() {
+            const container = document.getElementById("questionContainer");
+            const questionId = `question_${Date.now()}`;
+            const questionHTML = `
+                <div id="${questionId}" class="bg-white p-4 rounded shadow mb-4">
+                    <label for="${questionId}_text" class="block font-medium mb-2">Question Text</label>
+                    <input type="text" name="questions[][text]" id="${questionId}_text" class="w-full border rounded p-3" required>
+                    <label for="${questionId}_type" class="block font-medium mb-2">Question Type</label>
+                    <select name="questions[][type]" id="${questionId}_type" class="w-full border rounded p-3" onchange="toggleChoices(this, '${questionId}')">
+                        <option value="MCQ">Multiple Choice</option>
+                        <option value="TF">True/False</option>
+                        <option value="ID">Identification</option>
+                    </select>
+                    <div id="${questionId}_choices" class="mt-4 hidden">
+                        <label class="block font-medium mb-2">Choices</label>
+                        <button type="button" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" onclick="addChoice('${questionId}')">Add Choice</button>
+                        <div id="${questionId}_choicesContainer" class="mt-4"></div>
+                    </div>
+                    <label for="${questionId}_answer" class="block font-medium mt-4">Correct Answer</label>
+                    <input type="text" name="questions[][correct_answer]" id="${questionId}_answer" class="w-full border rounded p-3" required>
+                    <button type="button" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 mt-4" onclick="removeElement('${questionId}')">Remove Question</button>
+                </div>
+            `;
+            container.insertAdjacentHTML("beforeend", questionHTML);
+        }
 
-      <footer class="bg-gray-800 text-white text-center py-4 mt-12">
-            <p>&copy; 2024 Quiz Management System. All rights reserved.</p>
-      </footer>
+        function addChoice(questionId) {
+            const container = document.getElementById(`${questionId}_choicesContainer`);
+            const choiceHTML = `<input type="text" name="questions[][choices][]" class="w-full border rounded p-3 mt-2" placeholder="Enter choice">`;
+            container.insertAdjacentHTML("beforeend", choiceHTML);
+        }
+
+        function toggleChoices(select, questionId) {
+            const choicesDiv = document.getElementById(`${questionId}_choices`);
+            choicesDiv.classList.toggle('hidden', select.value !== 'MCQ');
+        }
+
+        function removeElement(id) {
+            document.getElementById(id).remove();
+        }
+    </script>
 </body>
 
 </html>

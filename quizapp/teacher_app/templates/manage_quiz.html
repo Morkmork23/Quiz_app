@@ -1,0 +1,152 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Manage Quiz</title>
+    <script>
+        // Open modal functions
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.remove('hidden');
+        }
+
+        // Close modal functions
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+        }
+    </script>
+</head>
+
+<body class="bg-gray-50">
+    <div class="container mx-auto p-6 space-y-8">
+        <!-- Quiz Header -->
+        <header class="bg-blue-700 text-white rounded shadow p-6">
+            <h1 class="text-3xl font-bold">{{ quiz.title }}</h1>
+            <p class="text-sm mt-2">Assigned to: {{ quiz.assigned_class.name }}</p>
+            <p class="text-sm">Scheduled Date: {{ quiz.scheduled_date|date:"M d, Y H:i" }}</p>
+            <p class="text-sm">Duration: {{ quiz.duration_minutes }} minutes</p>
+        </header>
+
+        <!-- Questions Management -->
+        <section id="questions" class="bg-white p-6 rounded shadow">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-2xl font-semibold">Questions</h2>
+                <button onclick="openModal('addQuestionModal')"
+                    class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Add New Question</button>
+            </div>
+            <div class="space-y-4">
+                {% for question in quiz.questions.all %}
+                    <div class="p-4 border rounded bg-gray-100">
+                        <h3 class="font-semibold">{{ question.question_text }}</h3>
+                        <p class="text-gray-600">Type: {{ question.get_question_type_display }}</p>
+                        <p class="text-gray-600">Answer: {{ question.correct_answer }}</p>
+                        <div class="flex space-x-4 mt-2">
+                            <button onclick="openModal('editQuestionModal{{ question.id }}')"
+                                class="text-blue-600 hover:underline">Edit</button>
+                            <form action="{% url 'delete_question' question.id %}" method="POST" class="inline-block">
+                                {% csrf_token %}
+                                <button type="submit" class="text-red-600 hover:underline">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Edit Question Modal -->
+                    <div id="editQuestionModal{{ question.id }}" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+                        <div class="bg-white p-6 rounded shadow-lg w-96">
+                            <h3 class="text-xl font-semibold mb-4">Edit Question</h3>
+                            <form action="{% url 'edit_question' question.id %}" method="POST">
+                                {% csrf_token %}
+                                <div>
+                                    <label for="question_text" class="block font-medium">Question Text</label>
+                                    <textarea name="question_text" id="question_text" rows="3" class="w-full border rounded p-3"
+                                        required>{{ question.question_text }}</textarea>
+                                </div>
+                                <div class="mt-4">
+                                    <label for="question_type" class="block font-medium">Question Type</label>
+                                    <select name="question_type" id="question_type" class="w-full border rounded p-3" required>
+                                        <option value="MCQ" {% if question.question_type == 'MCQ' %}selected{% endif %}>Multiple Choice</option>
+                                        <option value="TF" {% if question.question_type == 'TF' %}selected{% endif %}>True/False</option>
+                                        <option value="ID" {% if question.question_type == 'ID' %}selected{% endif %}>Identification</option>
+                                    </select>
+                                </div>
+                                <div class="mt-4">
+                                    <label for="correct_answer" class="block font-medium">Correct Answer</label>
+                                    <input type="text" name="correct_answer" id="correct_answer" class="w-full border rounded p-3"
+                                        value="{{ question.correct_answer }}" required>
+                                </div>
+                                <div class="flex justify-end mt-4 space-x-2">
+                                    <button type="button" onclick="closeModal('editQuestionModal{{ question.id }}')"
+                                        class="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700">Cancel</button>
+                                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Save</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                {% empty %}
+                    <p class="text-gray-600">No questions added yet.</p>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- Participants Section -->
+        <section id="participants" class="bg-white p-6 rounded shadow">
+            <h2 class="text-2xl font-semibold mb-4">Participants</h2>
+            <div class="space-y-4">
+                {% for participant in participants %}
+                    <div class="flex justify-between items-center p-4 border rounded bg-gray-100">
+                        <p class="font-medium">{{ participant.user.username }}</p>
+                        <p class="text-sm text-gray-600">Score: {{ participant.score }}</p>
+                    </div>
+                {% empty %}
+                    <p class="text-gray-600">No participants have taken this quiz yet.</p>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- Delete Quiz -->
+        <section id="delete-quiz" class="bg-white p-6 rounded shadow">
+            <h2 class="text-xl font-semibold text-red-600">Danger Zone</h2>
+            <p class="text-gray-600 mt-2">Deleting this quiz will remove all associated questions and participant data.</p>
+            <form action="{% url 'delete_quiz' quiz.id %}" method="POST" class="mt-4">
+                {% csrf_token %}
+                <button type="submit" class="bg-red-600 text-white px-6 py-3 rounded hover:bg-red-700">Delete Quiz</button>
+            </form>
+        </section>
+    </div>
+
+    <!-- Add Question Modal -->
+    <div id="addQuestionModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+        <div class="bg-white p-6 rounded shadow-lg w-96">
+            <h3 class="text-xl font-semibold mb-4">Add New Question</h3>
+            <form action="{% url 'add_question' quiz.id %}" method="POST">
+                {% csrf_token %}
+                <div>
+                    <label for="question_text" class="block font-medium">Question Text</label>
+                    <textarea name="question_text" id="question_text" rows="3" class="w-full border rounded p-3" required></textarea>
+                </div>
+                <div class="mt-4">
+                    <label for="question_type" class="block font-medium">Question Type</label>
+                    <select name="question_type" id="question_type" class="w-full border rounded p-3" required>
+                        <option value="MCQ">Multiple Choice</option>
+                        <option value="TF">True/False</option>
+                        <option value="ID">Identification</option>
+                    </select>
+                </div>
+                <div class="mt-4">
+                    <label for="correct_answer" class="block font-medium">Correct Answer</label>
+                    <input type="text" name="correct_answer" id="correct_answer" class="w-full border rounded p-3" required>
+                </div>
+                <div class="flex justify-end mt-4 space-x-2">
+                    <button type="button" onclick="closeModal('addQuestionModal')" class="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700">Cancel</button>
+                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Add Question</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
