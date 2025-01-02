@@ -1,0 +1,71 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Add Questions</title>
+</head>
+<body class="bg-gray-50">
+    <header class="bg-blue-700 text-white shadow-md py-4">
+        <div class="container mx-auto px-6">
+            <h1 class="text-2xl font-bold">Add Questions</h1>
+        </div>
+    </header>
+
+    <main class="container mx-auto py-6">
+        <form id="question-form" method="POST">
+            {% csrf_token %}
+            <!-- Question Management -->
+            <div class="mt-8">
+                <h2 class="text-lg font-semibold mb-4">Questions</h2>
+                <div id="question-container"></div>
+                <button type="button" onclick="addQuestion()" class="bg-blue-600 text-white px-6 py-2 rounded mt-4 hover:bg-blue-700">
+                    Add Question
+                </button>
+            </div>
+
+            <button type="submit" class="bg-green-600 text-white px-6 py-3 rounded mt-6 hover:bg-green-700">
+                Save Questions
+            </button>
+        </form>
+    </main>
+
+    <footer class="bg-gray-800 text-white text-center py-4">
+        <p>&copy; 2024 Quiz Management System. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function addQuestion() {
+            const container = document.getElementById("question-container");
+            const questionId = `question_${Date.now()}`;
+            const questionHTML = `
+                <div id="${questionId}" class="bg-white p-4 rounded shadow mb-4">
+                    <label for="${questionId}_text" class="block font-medium mb-2">Question Text</label>
+                    <input type="text" name="questions[][text]" id="${questionId}_text" class="w-full border rounded p-3" required>
+
+                    <label for="${questionId}_type" class="block font-medium mb-2 mt-4">Question Type</label>
+                    <select name="questions[][type]" id="${questionId}_type" class="w-full border rounded p-3">
+                        <option value="MCQ">Multiple Choice</option>
+                        <option value="TF">True/False</option>
+                        <option value="ID">Identification</option>
+                    </select>
+
+                    <label for="${questionId}_answer" class="block font-medium mt-4">Correct Answer</label>
+                    <input type="text" name="questions[][correct_answer]" id="${questionId}_answer" class="w-full border rounded p-3" required>
+
+                    <button type="button" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 mt-4" onclick="removeElement('${questionId}')">
+                        Remove Question
+                    </button>
+                </div>
+            `;
+            container.insertAdjacentHTML("beforeend", questionHTML);
+        }
+
+        function removeElement(id) {
+            document.getElementById(id).remove();
+        }
+    </script>
+</body>
+</html>
