@@ -4,6 +4,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import Class, Quiz, Question, Participant, Choice  # Import the models
 from django.http import JsonResponse
+import random
+import string
+from .forms import ClassForm
 
 @login_required
 def dashboard(request):
@@ -233,3 +236,48 @@ def edit_question(request, question_id):
         return redirect('manage_quiz', quiz_id=question.quiz.id)
 
     return redirect('manage_quiz', quiz_id=question.quiz.id)
+
+
+
+
+def quiz_list(request):
+    # Add any context data you need for the template
+    return render(request, 'quiz_list.html')
+def quiz_creation(request):
+    return render(request, 'quiz_creation.html')
+
+
+
+
+
+
+def generate_join_code():
+    return ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
+
+def create_class(request):
+    if request.method == 'POST':
+        form = ClassForm(request.POST)
+        if form.is_valid():
+            # Get the teacher from the manually entered value
+            teacher_input = request.POST.get('teacher')
+            try:
+                teacher = User.objects.get(username=teacher_input)  # You could also use email: User.objects.get(email=teacher_input)
+            except User.DoesNotExist:
+                teacher = None  # Or you can handle this case with a message if the teacher doesn't exist
+
+            if teacher:
+                # If teacher exists, create the class instance
+                class_instance = form.save(commit=False)
+                class_instance.teacher = teacher  # Manually set the teacher
+                if not class_instance.join_code:
+                    class_instance.join_code = generate_join_code()  # Optionally generate join code if not provided
+                class_instance.save()
+
+                # Redirect to the class list or another view
+                return redirect('class_list')  # Adjust 'class_list' to your actual view name for class list
+            else:
+                form.add_error('teacher', 'Teacher not found. Please check the username or email.')  # Add error to the form
+    else:
+        form = ClassForm()
+
+    return render(request, 'create_class.html', {'form': form})

@@ -312,8 +312,8 @@
 
                 if (select.value === 'MCQ') {
                     choicesDiv.classList.remove('hidden');
-                    answerInput.type = 'hidden'; // Hide the default answer input
-                    answerLabel.textContent = 'Correct Choices';
+                    answerInput.type = 'text'; // Hide the default answer input
+                    answerLabel.textContent = 'Correct Choice';
                 } else {
                     choicesDiv.classList.add('hidden');
                     answerInput.type = 'text'; // Show the default answer input

@@ -16,4 +16,9 @@ urlpatterns = [
     path('question/add/<int:quiz_id>/', views.add_question, name='add_question'),
     path('question/edit/<int:question_id>/', views.edit_question, name='edit_question'),
     path('question/delete/<int:question_id>/', views.delete_question, name='delete_question'),
+    
+    # Corrected path for quiz_list.html, assuming the view is named 'quiz_list'
+    path('quiz-list/', views.quiz_list, name='quiz_list'),
+    path('quizcreation/', views.quiz_creation, name='quiz_creation'),
+    path('createclass/', views.create_class, name='create_class'),
 ]
